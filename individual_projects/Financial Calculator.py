@@ -43,19 +43,47 @@ def STC():
 def CIC():
     while True:
         #     ask user for the starting amount of money
-        smon = input("startin amount:  ")
-        if text_help(smon, 1) == False:
+        smon = input("starting amount:  ")
+        if text_help(smon, ""1") == False:
             print ("invalid input")
-            
+            continue
 #     ask user for the annual interest rate
+        air = input("annual interest rate:  ")
+        if text_help(air, "1") == False:
+            print ("invalid input")
+            continue
 #     ask user for the number of years
+        year = input("how many years will it be active:  ")
+        if text_help(year, "1") == False:
+            print ("invalid input")
+            continue
+        break
 #     calculate the compound interest
+    for x in range(year):
+        smom *= (1 + air)
 #     return the total amount after interest
+        return smom
 # def budget_allocator():
+def budget_allocator():
 #     define budget_categories as a empty dictionary
+    b_c = {}
 #     ask user how many budget categories they have
+    while True:
+        b_c_a = input("how many budget catagories do you have")
+        if text_help(b_c_a, "1") == False:
+            print ("invalid input")
+            continue
 #     ask user total monthy income
+        tmi = input("what is your monthly income:  ")
+        if text_help(tmi, "1") == False:
+            print ("invalid input")
+            continue
+        break
 #     in a for loop, ask user what the name of the catagory is, then the percentage of the monthly income it takes up
+    for i in range(b_c_a):
+        while True:
+            tempor = input("what is the name of catagory one:  ")
+            b_c 
 #     return dictionary
 # def sale_price_calculator(tip):
 #     ask user original cost
