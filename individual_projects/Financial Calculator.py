@@ -70,6 +70,7 @@ def CIC():
 def budget_allocator():
 #     define budget_categories as a empty dictionary
     b_c = {}
+    total_percent = 0
 #     ask user how many budget categories they have
     while True:
         b_c_a = input("how many budget catagories do you have")
@@ -87,7 +88,7 @@ def budget_allocator():
 #     in a for loop, ask user what the name of the catagory is, then the percentage of the monthly income it takes up
     for i in range(b_c_a):
         while True:
-            tempor = input("what is the name of catagory one:  ")
+            tempor = input(f"what is the name of catagory {i+1}:  ")
             if text_help(tempor, "a") == False:
                 print ("invalid input")
                 continue
@@ -96,7 +97,11 @@ def budget_allocator():
                 print ("invalid input")
                 continue
             percent = int(percent)
+            if total_percent + percent > 100:
+                print (f"invalid input. You have {100 - total_percent}% remaining.")
+                continue
             break
+        total_percent += percent
         b_c[tempor] = round((tmi * (percent / 100)), 2)
 #     return dictionary
     return b_c
@@ -178,4 +183,4 @@ def main():
         again = input("Would you like to perform another calculation? (yes/no): ")
         if again.lower() != "yes":
             break
-
+main()
