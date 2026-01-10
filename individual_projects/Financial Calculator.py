@@ -1,31 +1,38 @@
 # ZC 1st Financial Calculator.py
-def text_help(text, type):
-    if type.isnumeric():
-        if text.isnumeric():
+def validate_input(text, kind):
+    s = str(text).strip()
+    if kind == 'int':
+        try:
+            int(s)
             return True
-        else:
+        except ValueError:
             return False
-    elif type.isalpha():
-        if text.isalpha():
+    elif kind == 'float':
+        try:
+            float(s)
             return True
-        else:
+        except ValueError:
             return False
+    elif kind == 'alpha':
+        return s.isalpha()
+    else:
+        return False
 # def savings_time_calculator function():
 def STC():
     #     ask user how much they are contributing and how often they contribute
     while True:
         con = input("how much are you contributing?  ")
-        if text_help(con, "1") == False:
-            print ("invalid input")
+        if not validate_input(con, 'int'):
+            print("invalid input")
             continue
         con = int(con)
         time = input("how often are you contributing. enter weekly or monthly")
-        if text_help(time, "a") == False:
-            print ("invalid input")
+        if not validate_input(time, 'alpha'):
+            print("invalid input")
             continue
         goal = input("what is your goal?")
-        if text_help(goal, "1") == False:
-            print ("invalid input")
+        if not validate_input(goal, 'int'):
+            print("invalid input")
             continue
         goal = int(goal)
         break
@@ -44,28 +51,31 @@ def CIC():
     while True:
         #     ask user for the starting amount of money
         smom = input("starting amount:  ")
-        if text_help(smom, "1") == False:
-            print ("invalid input")
+        if not validate_input(smom, 'float'):
+            print("invalid input")
             continue
-        smom = int(smom)
+        smom = float(smom)
 #     ask user for the annual interest rate
         air = input("annual interest rate:  ")
-        if text_help(air, "1") == False:
-            print ("invalid input")
+        if not validate_input(air, 'float'):
+            print("invalid input")
             continue
-        air = int(air) / 100
+        air = float(air) / 100
 #     ask user for the number of years
         year = input("how many years will it be active:  ")
-        if text_help(year, "1") == False:
-            print ("invalid input")
+        if not validate_input(year, 'int'):
+            print("invalid input")
             continue
         year = int(year)
         break
 #     calculate the compound interest
-    for x in range(year):
-        smom *= (1 + air)
+    def compound(pri, rate, years):
+        result = pri
+        for _ in range(years):
+            result *= (1 + rate)
+        return result
 #     return the total amount after interest
-    return smom
+    return compound(smom, air, year)
 # def budget_allocator():
 def budget_allocator():
 #     define budget_categories as a empty dictionary
@@ -74,27 +84,27 @@ def budget_allocator():
 #     ask user how many budget categories they have
     while True:
         b_c_a = input("how many budget catagories do you have")
-        if text_help(b_c_a, "1") == False:
-            print ("invalid input")
+        if not validate_input(b_c_a, 'int'):
+            print("invalid input")
             continue
         b_c_a = int(b_c_a)
 #     ask user total monthy income
         tmi = input("what is your monthly income:  ")
-        if text_help(tmi, "1") == False:
-            print ("invalid input")
+        if not validate_input(tmi, 'float'):
+            print("invalid input")
             continue
-        tmi = int(tmi)
+        tmi = float(tmi)
         break
 #     in a for loop, ask user what the name of the catagory is, then the percentage of the monthly income it takes up
     for i in range(b_c_a):
         while True:
             tempor = input(f"what is the name of catagory {i+1}:  ")
-            if text_help(tempor, "a") == False:
-                print ("invalid input")
+            if not validate_input(tempor, 'alpha'):
+                print("invalid input")
                 continue
             percent = input("what percentage of your income does this catagory take up:  ")
-            if text_help(percent, "1") == False:
-                print ("invalid input")
+            if not validate_input(percent, 'int'):
+                print("invalid input")
                 continue
             percent = int(percent)
             if total_percent + percent > 100:
@@ -110,28 +120,28 @@ def sale_price_calculator(tip):
     while True:
 #     ask user original cost
         oc = input("what is the original cost:  ")
-        if text_help(oc, "1") == False:
-            print ("invalid input")
+        if not validate_input(oc, 'float'):
+            print("invalid input")
             continue
-        oc = int(oc)
+        oc = float(oc)
 #     if tip:
         if tip:
 #           ask user tip percent
             tp = input("what is the tip percent:  ")
-            if text_help(tp, "1") == False:
-                print ("invalid input")
+            if not validate_input(tp, 'float'):
+                print("invalid input")
                 continue
-            tp = int(tp) / 100
+            tp = float(tp) / 100
 #           total percent = 1 + tip percent
             total_percent = 1 + tp
 #     else:
         else:
 #           ask user discount percent
             dp = input("what is the discount percent:  ")
-            if text_help(dp, "1") == False:
-                print ("invalid input")
+            if not validate_input(dp, 'float'):
+                print("invalid input")
                 continue
-            dp = int(dp) / 100
+            dp = float(dp) / 100
 #           total percent = 1 - discount percent
             total_percent = 1 - dp
         break
@@ -182,5 +192,6 @@ def main():
         
         again = input("Would you like to perform another calculation? (yes/no): ")
         if again.lower() != "yes":
+            print ("goodbye")
             break
 main()
