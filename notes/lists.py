@@ -8,5 +8,8 @@ for x in friends:
 #tuples
 black = (0,0,0)
 r,g,b = black
-
-
+#sets
+fruits = {"apple", "orange", "banana", "pineapple", "pear", "grape", "apple"}
+print (fruits)
+fruits.add("kiwi")
+print (fruits)
