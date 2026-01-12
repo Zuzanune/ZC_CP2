@@ -1,4 +1,4 @@
-# ZC 1st Financial Calculator.py
+# ZC 2nd Financial Calculator.py
 def text_help(text, type):
     if type.isnumeric():
         if text.isnumeric():
