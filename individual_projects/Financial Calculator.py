@@ -1,4 +1,4 @@
-# ZC 1st Financial Calculator.py
+# ZC 2nd Financial Calculator.py
 def validate_input(text, kind):
     s = str(text).strip()
     if kind == 'int':
