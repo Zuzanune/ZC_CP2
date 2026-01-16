@@ -3,6 +3,7 @@
 print("Welcome to your personal library!")
 library = []
 #library = [{'title': 'The Great Gatsby', 'author': 'F. Scott Fitzgerald'}, {'title': 'To Kill a Mockingbird', 'author': 'Harper Lee'}, {'title': '1984', 'author': 'George Orwell'}, {'title': 'Pride and Prejudice', 'author': 'Jane Austen'}, {'title': 'The Catcher in the Rye', 'author': 'J.D. Salinger'}, {'title': 'Fahrenheit 451', 'author': 'Ray Bradbury'}, {'title': 'Moby Dick', 'author': 'Herman Melville'}, {'title': 'Jane Eyre', 'author': 'Charlotte Bronte'}, {'title': 'Wuthering Heights', 'author': 'Emily Bronte'}, {'title': 'The Hobbit', 'author': 'J.R.R. Tolkien'}, {'title': 'The Lord of the Rings', 'author': 'J.R.R. Tolkien'}, {'title': 'Harry Potter and the Sorcerers Stone', 'author': 'J.K. Rowling'}, {'title': 'The Chronicles of Narnia', 'author': 'C.S. Lewis'}, {'title': 'A Tale of Two Cities', 'author': 'Charles Dickens'}, {'title': 'Great Expectations', 'author': 'Charles Dickens'}, {'title': 'Oliver Twist', 'author': 'Charles Dickens'}, {'title': 'Frankenstein', 'author': 'Mary Shelley'}, {'title': 'Dracula', 'author': 'Bram Stoker'}, {'title': 'The Picture of Dorian Gray', 'author': 'Oscar Wilde'}, {'title': 'The Strange Case of Dr Jekyll and Mr Hyde', 'author': 'Robert Louis Stevenson'}, {'title': 'Treasure Island', 'author': 'Robert Louis Stevenson'}, {'title': 'The Three Musketeers', 'author': 'Alexandre Dumas'}, {'title': 'The Count of Monte Cristo', 'author': 'Alexandre Dumas'}, {'title': 'War and Peace', 'author': 'Leo Tolstoy'}, {'title': 'Crime and Punishment', 'author': 'Fyodor Dostoevsky'}, {'title': 'The Brothers Karamazov', 'author': 'Fyodor Dostoevsky'}, {'title': 'Anna Karenina', 'author': 'Leo Tolstoy'}, {'title': 'Madame Bovary', 'author': 'Gustave Flaubert'}, {'title': 'Les Miserables', 'author': 'Victor Hugo'}, {'title': 'The Hunchback of Notre Dame', 'author': 'Victor Hugo'}, {'title': 'Dune', 'author': 'Frank Herbert'}, {'title': 'Foundation', 'author': 'Isaac Asimov'}, {'title': 'Enders Game', 'author': 'Orson Scott Card'}, {'title': 'The Martian', 'author': 'Andy Weir'}, {'title': 'Ready Player One', 'author': 'Ernest Cline'}, {'title': 'Snow Crash', 'author': 'Neal Stephenson'}, {'title': 'Neuromancer', 'author': 'William Gibson'}, {'title': 'The Handmaids Tale', 'author': 'Margaret Atwood'}, {'title': 'Beloved', 'author': 'Toni Morrison'}, {'title': 'One Hundred Years of Solitude', 'author': 'Gabriel Garcia Marquez'}, {'title': 'The Odyssey', 'author': 'Homer'}, {'title': 'Beowulf', 'author': 'Unknown'}, {'title': 'Hamlet', 'author': 'William Shakespeare'}, {'title': 'Macbeth', 'author': 'William Shakespeare'}, {'title': 'Utopia', 'author': 'Thomas More'}, {'title': 'The Republic', 'author': 'Plato'}, {'title': 'Aesops Fables', 'author': 'Aesop'}, {'title': 'Don Quixote', 'author': 'Miguel de Cervantes'}, {'title': 'The Jungle Book', 'author': 'Rudyard Kipling'}, {'title': 'Alice in Wonderland', 'author': 'Lewis Carroll'}]
+
 #define add function
 def add():
     #   ask user for book title and author
@@ -20,12 +21,12 @@ def add():
 #   add book to library list
     library.append({'title': title, 'author': author})
     print(f'Book "{title}" by {author} added to library.')
+
 #define search function
 def search():
     #   ask user to search by title or author
     search_type = input("Search by title or author?   ").strip().lower()
     search_term = input("Enter search term: ").strip().lower()
-    
     #   search list by going through each name in a for loop, then checking if the search term is in the name
     matches = []
     for book in library:
@@ -38,6 +39,7 @@ def search():
             print(f'"{book["title"]}" by {book["author"]}')
     else:
         print("No books were found matching your search.")
+
 #define remove function
 def remove():
     count = 0
@@ -61,8 +63,7 @@ def remove():
                 library.remove(book)
                 print(f'Book "{book["title"]}" by {book["author"]} removed from library.')
                 return
-            else:
-                print ("no book matches that title and author")
+            print ("no book matches that title and author")
     if count == 1:
         library.remove(book)
         print(f'Book "{book["title"]}" by {book["author"]} removed from library.')
