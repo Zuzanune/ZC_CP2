@@ -26,11 +26,11 @@ def STC():
             print("invalid input")
             continue
         con = int(con)
-        time = input("how often are you contributing. enter weekly or monthly")
+        time = input("how often are you contributing. enter weekly or monthly  ")
         if not validate_input(time, 'alpha'):
             print("invalid input")
             continue
-        goal = input("what is your goal?")
+        goal = input("what is your goal?  ")
         if not validate_input(goal, 'int'):
             print("invalid input")
             continue
