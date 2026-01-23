@@ -7,7 +7,7 @@ source = [
     'Despite the fact that language speakers often have an intuitive grasp of what a word is, there is no consensus among linguists on its definition and numerous attempts to find specific criteria of the concept remain controversial.',
     'Different standards have been proposed, depending on the theoretical background and descriptive context; these do not converge on a single definition.',
     'Some specific definitions of the term "word" are employed to convey its different meanings at different levels of description, for example based on phonological, grammatical or orthographic basis.',
-    'oh  what is a word anyway, other than a sequence of letters with spaces on either side, and nothing interesting, like bananas or platypuses',
+    'oh what is a word anyway, other than a sequence of letters with spaces on either side, and nothing interesting, like bananas or platypuses',
     'Philosophy is a systematic study of general and fundamental questions concerning topics like existence, reason, knowledge, value, beauty, mind, and language.',
     'It is a rational and critical inquiry that reflects on its methods and assumptions.',
     'Historically, many of the individual sciences, such as physics and psychology, formed part of philosophy.',
