@@ -1,10 +1,10 @@
-#ZC 1st Movie Recommender
+# ZC 1st Movie Recommender
 import csv
 import os
 import sys
 
-#use file Movies_dictionary.csv to create a movie database
-#the database should be a dictionary where the keys are the movie titles and the values are lists containing the director, genre, rating, length, and notable actors for each movie
+# use file Movies_dictionary.csv to create a movie database
+# the database should be a dictionary where the keys are the movie titles and the values are lists containing the director, genre, rating, length, and notable actors for each movie
 script_dir = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(script_dir, 'Movies_dictionary.csv')
 
@@ -25,7 +25,6 @@ with open(csv_path, mode='r', newline='', encoding='utf-8') as file:
         directors_list = [d.strip() for d in director.split(",")]
         actors_list = [a.strip() for a in notable_actors.split(",")]
 
-        # store length as an int so "minimum length" comparisons work correctly
         try:
             length_int = int(length)
         except ValueError:
@@ -33,11 +32,11 @@ with open(csv_path, mode='r', newline='', encoding='utf-8') as file:
 
         database[title] = [directors_list, genre, rating, length_int, actors_list]
 
-#introduction
+# introduction
 print("Welcome to the Movie Recommender!")
 print("You can search for movies based on Title, Director, Genre, Rating, Length, or Notable Actors.")
 
-#while true:
+# while true:
 while True:
     print("would you like to search for a movie or print the entire database?")
     user_choice = input("Enter 'search' to search for a movie or 'print' to print the entire database: ")
@@ -58,22 +57,22 @@ while True:
         continue
 
     if user_choice.lower() == "search":
-        #ask user if they are selecting Title,Director,Genre,Rating,Length, or Notable Actors
+        # ask user if they are selecting Title,Director,Genre,Rating,Length, or Notable Actors
         display_search_types = ["Title", "Director", "Genre", "Rating", "Minimum Length", "Notable Actors"]
 
-        #ask user to input the specific title, director, genre, rating, length, or notable actor
+        # ask user to input the specific title, director, genre, rating, length, or notable actor
         filters = []
-        for x in display_search_types:
-            appends = input(f"Enter the {x} you are looking for (or leave blank to skip): ").strip()
-            if appends == "":
-                appends = "NON APPLICABLE"
-            filters.append(appends)
+        for search_type in display_search_types:
+            user_input = input(f"Enter the {search_type} you are looking for (or leave blank to skip): ").strip()
+            if user_input == "":
+                user_input = "NON APPLICABLE"
+            filters.append(user_input)
 
         matching_movies = []
 
         for title, info in database.items():
             directors, genre, rating, length_int, actors = info
-#search through the movie database and find movies that match the user's input
+            # search through the movie database and find movies that match the user's input
             ok = True
 
             def title_check():
@@ -82,14 +81,11 @@ while True:
                         return False
                 return True
 
-            if not title_check():
-                ok = False
-
             def director_check():
-                 if filters[1] != "NON APPLICABLE":
+                if filters[1] != "NON APPLICABLE":
                     if not any(filters[1].lower() in d.lower() for d in directors):
                         return False
-                 return True
+                return True
 
             def genre_check():
                 if filters[2] != "NON APPLICABLE":
@@ -103,7 +99,7 @@ while True:
                         return False
                 return True
 
-            def minlengthcheck():
+            def min_length_check():
                 if filters[4] != "NON APPLICABLE":
                     try:
                         min_length = int(filters[4])
@@ -118,32 +114,40 @@ while True:
                     if not any(filters[5].lower() in a.lower() for a in actors):
                         return False
                 return True
+
             def all_checks():
-                return all([title_check(), director_check(), genre_check(), rating_check(), minlengthcheck(), actors_check()])
+                return all([
+                    title_check(),
+                    director_check(),
+                    genre_check(),
+                    rating_check(),
+                    min_length_check(),
+                    actors_check()
+                ])
+
             if all_checks():
                 matching_movies.append(title)
 
-       
-
-#display the matching movies to the user
+    # display the matching movies to the user
     if matching_movies:
-                print("Matching movies:")
-                for movie in matching_movies:
-                    print(movie)
-                print ("would you like to select one of these movies to see more information about it?")
-                movie_choice = input("(y/n): ")
-                if movie_choice.lower() == "y":
-                    print("Which movie would you like to see more information about?")
-                    selected_movie = input("Enter the movie title: ").strip().capitalize()
-                    if selected_movie in database:
-                        info = database[selected_movie]
-                        print(f"Title: {selected_movie}")
-                        print(f"Director: {', '.join(info[0])}")
-                        print(f"Genre: {info[1]}")
-                        print(f"Rating: {info[2]}")
-                        print(f"Length: {info[3]}")
-                        print(f"Notable Actors: {', '.join(info[4])}")
-                    else:
-                        print("Movie not found in the database.")
+        print("Matching movies:")
+        for movie in matching_movies:
+            print(movie)
+
+        print("would you like to select one of these movies to see more information about it?")
+        movie_choice = input("(y/n): ")
+        if movie_choice.lower() == "y":
+            print("Which movie would you like to see more information about?")
+            selected_movie = input("Enter the movie title: ").strip().capitalize()
+            if selected_movie in database:
+                info = database[selected_movie]
+                print(f"Title: {selected_movie}")
+                print(f"Director: {', '.join(info[0])}")
+                print(f"Genre: {info[1]}")
+                print(f"Rating: {info[2]}")
+                print(f"Length: {info[3]}")
+                print(f"Notable Actors: {', '.join(info[4])}")
+            else:
+                print("Movie not found in the database.")
     else:
         print("No matching movies found.")
