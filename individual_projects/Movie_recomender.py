@@ -3,6 +3,7 @@ import csv
 import os
 
 # use file Movies_dictionary.csv to create a movie database. the database is a dictionary with the key as a movie name and the value as a list
+# i actually dont know what the two lines below here do. i was confused on how to find the path to my file, so i looked it up and it came up with this,
 script_dir = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(script_dir, 'Movies_dictionary.csv')
 
