@@ -1,18 +1,16 @@
 # ZC 1st Movie Recommender
 import csv
 import os
-import sys
 
-# use file Movies_dictionary.csv to create a movie database
-# the database should be a dictionary where the keys are the movie titles and the values are lists containing the director, genre, rating, length, and notable actors for each movie
+# use file Movies_dictionary.csv to create a movie database. the database is a dictionary with the key as a movie name and the value as a list
 script_dir = os.path.dirname(os.path.abspath(__file__))
 csv_path = os.path.join(script_dir, 'Movies_dictionary.csv')
 
 database = {}
-with open(csv_path, mode='r', newline='', encoding='utf-8') as file:
+with open(csv_path, mode='r', newline='') as file:
     reader = csv.reader(file)
     next(reader, None)
-
+#define all rows as a dictionary
     for row in reader:
         title = row[0].strip()
         director = row[1].strip()
@@ -20,8 +18,6 @@ with open(csv_path, mode='r', newline='', encoding='utf-8') as file:
         rating = row[3].strip()
         length = row[4].strip()
         notable_actors = row[5].strip()
-
-        # directors and notable actors can be comma-separated lists (some CSV cells are quoted)
         directors_list = [d.strip() for d in director.split(",")]
         actors_list = [a.strip() for a in notable_actors.split(",")]
 
@@ -60,7 +56,7 @@ while True:
         # ask user if they are selecting Title,Director,Genre,Rating,Length, or Notable Actors
         display_search_types = ["Title", "Director", "Genre", "Rating", "Minimum Length", "Notable Actors"]
 
-        # ask user to input the specific title, director, genre, rating, length, or notable actor
+        # ask user to input the specific title,director, genre,rating,length,or notable actor
         filters = []
         for search_type in display_search_types:
             user_input = input(f"Enter the {search_type} you are looking for (or leave blank to skip): ").strip()
@@ -72,7 +68,7 @@ while True:
 
         for title, info in database.items():
             directors, genre, rating, length_int, actors = info
-            # search through the movie database and find movies that match the user's input
+            # search through the movie database and find movies that match the input
             ok = True
 
             def title_check():
@@ -138,7 +134,7 @@ while True:
         movie_choice = input("(y/n): ")
         if movie_choice.lower() == "y":
             print("Which movie would you like to see more information about?")
-            selected_movie = input("Enter the movie title: ").strip().capitalize()
+            selected_movie = input("Enter the movie title: ").lower().strip().capitalize()
             if selected_movie in database:
                 info = database[selected_movie]
                 print(f"Title: {selected_movie}")
