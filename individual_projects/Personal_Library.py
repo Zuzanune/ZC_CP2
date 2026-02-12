@@ -1,4 +1,22 @@
 #ZC 1st Personal Library.py
+def validate_input(text, kind='int'):
+    s = str(text).strip().capitalize()
+    if kind == 'int':
+        try:
+            int(s)
+            return True
+        except ValueError:
+            return False
+    elif kind == 'float':
+        try:
+            float(s)
+            return True
+        except ValueError:
+            return False
+    elif kind == 'alpha':
+        return s.isalpha()
+    else:
+        return False
 import csv
 library_reader = csv.DictReader(open('individual_projects/Library.csv'))
 #introduce the program
@@ -7,6 +25,13 @@ def add():
     #   ask user for book title and author
     title = input("Enter book title: ").capitalize()
     author = input("Enter book author: ").capitalize()
+    genre = input("enter book genre:  ").capitalize()
+    while "true":
+        year = int(input("enter the books release year:  "))
+        if not validate_input(year):
+            print ("please enter an intiger value")
+            continue
+        break
     for book in library_reader:
         if book['title'].lower() == title.lower() and book['author'].lower() == author.lower():
             print("This book is already in the library.")
@@ -17,20 +42,28 @@ def add():
                 break
     
 #   add book to library list
-    with open('individual_projects/Library.csv', 'a', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=['title', 'author'])
-        writer.writerow({'title': title, 'author': author})
+    with open('individual_projects/Library.csv', 'a', newline='') as book:
+        writer = csv.DictWriter(book, fieldnames=['title', 'author', 'genre', 'year'])
+        writer.writerow({'title': title, 'author': author, 'genre' : genre, 'year' : year})
     print(f'Book "{title}" by {author} added to library.')
 
 #define search function
 def search():
     #   ask user to search by title or author
-    search_type = input("Search by title or author?   ").strip().lower()
+    search_type = int(input("Search by 1.title, 2.author, 3.genre or 4. year released? ").strip())
+    if search_type == 1:
+        search_type = "title"
+    elif search_type == 2:
+        search_type = "author"
+    elif search_type == 3:
+        search_type = "genre"
+    elif search_type == 4:
+        search_type = "year"
     search_term = input("Enter search term: ").strip().lower()
     #   search list by going through each name in a for loop, then checking if the search term is in the name
     matches = []
     for book in library_reader:
-        if (search_type == 'title' or search_type == 't') and search_term in book['title'].lower() or (search_type == 'author' or search_type == 'a') and search_term in book['author'].lower():
+        if (search_type == 'title' or search_type == 't') and search_term in book['title'].lower() or (search_type == 'author' or search_type == 'a') and search_term in book['author'].lower() and (search_type == 'genre' or search_type == 'g') and search_term in book['genre'].lower() and (search_type == 'year' or search_type == 'y') and search_term in book['year'].lower():
             matches.append(book)
 #   display matching books from library list
     if matches:
@@ -88,6 +121,20 @@ def view():
             print(f'"{book["title"]}" by {book["author"]}')
     else:
         print("Library is empty.")
+    while True:
+        while True:
+            select = input("would you like to select any of these books? (y/n) \n").lower()
+            if select not in ["y", "n", "yes", "no"]:
+                print ("please enter y or n")
+                continue
+            break
+        if select == "y" or "yes":
+            name = input("please enter the name of the book you are looking for:  \n")
+            for book in library_reader:
+                if book["title"] == name:
+                    print (f"title: {book['title']} \n author: {book['author']} \n genre : {book['genre']} \n year released: {book['year']}")
+        if select == 'n' or 'no':
+            break
 
 #define main function
 def main():
