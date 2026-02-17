@@ -18,7 +18,9 @@ def validate_input(text, kind='int'):
     else:
         return False
 import csv
-library_reader = csv.DictReader(open('individual_projects/Library.csv'))
+with open('individual_projects/Library.csv', 'r') as book:
+    library_reader = csv.writer()
+
 #introduce the program
 print("Welcome to your personal library!")
 def add():
@@ -121,20 +123,23 @@ def view():
             print(f'"{book["title"]}" by {book["author"]}')
     else:
         print("Library is empty.")
-    while True:
+        emp = True
+    if not emp:
         while True:
-            select = input("would you like to select any of these books? (y/n) \n").lower()
-            if select not in ["y", "n", "yes", "no"]:
-                print ("please enter y or n")
-                continue
-            break
-        if select == "y" or "yes":
-            name = input("please enter the name of the book you are looking for:  \n")
-            for book in library_reader:
-                if book["title"] == name:
-                    print (f"title: {book['title']} \n author: {book['author']} \n genre : {book['genre']} \n year released: {book['year']}")
-        if select == 'n' or 'no':
-            break
+            while True:
+                select = input("would you like to select any of these books? (y/n) \n").lower()
+                if select not in ["y", "n", "yes", "no"]:
+                    print ("please enter y or n")
+                    continue
+                break
+            if select == "y" or "yes":
+                name = input("please enter the name of the book you are looking for:  \n")
+                for book in library_reader:
+                    if book["title"] == name:
+                        print (f"title: {book['title']} \n author: {book['author']} \n genre : {book['genre']} \n year released: {book['year']}")
+            if select == 'n' or 'no':
+                break
+    return
 
 #define main function
 def main():
