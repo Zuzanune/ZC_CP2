@@ -18,8 +18,14 @@ def validate_input(text, kind='int'):
     else:
         return False
 import csv
-with open('individual_projects/Library.csv', 'r') as library_file:
-    library = list(csv.DictReader(library_file))
+try:
+    with open('individual_projects/Library.csv', 'r') as library_file:
+        library = list(csv.DictReader(library_file))
+except FileNotFoundError:
+    with open('individual_projects/Library.csv', 'w', newline='') as f:
+        writer = csv.DictWriter(f, fieldnames=['title', 'author', 'genre', 'year'])
+        writer.writeheader()
+    library = []
 
 #introduce the program
 print("Welcome to your personal library!")
@@ -137,8 +143,8 @@ def view():
 def main():
     global library
     while True:
-        with open('individual_projects/Library.csv', 'r') as library_file:
-            library = list(csv.DictReader(library_file))
+        with open('individual_projects/Library.csv', 'r') as lib:
+            library = list(csv.DictReader(lib))
     #   display menu with options to add, search, remove, or quit
         print ("would you like to add, remove, search, view, or quit")
         menu_choice = input()
