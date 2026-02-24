@@ -1,1 +1,0 @@
-library_reader = csv.DictReader(open('individual_projects/Library.csv'))
