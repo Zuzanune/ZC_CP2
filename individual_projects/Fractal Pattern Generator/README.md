@@ -14,7 +14,7 @@ this project makes a sierpinski tryangle of any color on any backround you want,
 -color completely customisable
 ##  installation
 
-- only uses Tkinter and turtle libraries.
+-only uses Tkinter and turtle libraries.
 ## contributers
 
 - Zuzanune
