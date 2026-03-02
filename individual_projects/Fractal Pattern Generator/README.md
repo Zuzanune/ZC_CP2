@@ -10,11 +10,11 @@ this project makes a sierpinski tryangle of any color on any backround you want,
 3. you can screenshot the finished product
 ## Features
 
--creates a sierpinski triangle using turtle.
--color completely customisable
+- creates a sierpinski triangle using turtle.
+- color completely customisable
 ##  installation
 
--only uses Tkinter and turtle libraries.
+- only uses Tkinter and turtle libraries.
 ## contributers
 
 - Zuzanune
