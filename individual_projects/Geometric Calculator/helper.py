@@ -1,5 +1,5 @@
 """class shape
-    attributes: name, dimensions, area, perimeter
+    atributes: name, dimensions, area, perimeter
     methods: calculate area, calculate perimeter
     define calculate area function
         if shape is circle
