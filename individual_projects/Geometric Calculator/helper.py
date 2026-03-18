@@ -69,36 +69,36 @@ define help function
     provide examples of shape dimensions and calculations
     """
 class Shape:
-    def __init__(self, name, dime):
-        self.name = name
+    def __init__(self, name, dime, type):
+        self.name = type
         self.dime = dime
         self.area = self.calculate_area()
         self.perimeter = self.calculate_perimeter()
     def __str__(self):
-        return f"{self.name.capitalize()} with dimensions {self.dime}, Area: {self.area:.2f}, Perimeter: {self.perimeter:.2f}"
+        return f"{self.name.capitalize()} with dimensions {self.dime}, Area: {self.area}, Perimeter: {self.perimeter}"
 
     def calculate_area(self):
         if self.name == "circle":
             radius = self.dime['radius']
             return 3.14159 * radius ** 2
-        elif self.name == "rectangle":
+        if self.name == "rectangle":
             length = self.dime['length']
             width = self.dime['width']
             return length * width
-        elif self.name == "triangle":
+        if self.name == "triangle":
             base = self.dime['base']
             height = self.dime['height']
             return 0.5 * base * height
-        elif self.name == "square":
+        if self.name == "square":
             side = self.dime['side']
             return side ** 2
-        elif self.name == "cube":
+        if self.name == "cube":
             side = self.dime['side']
             return side ** 3
-        elif self.name == "sphere":
+        if self.name == "sphere":
             radius = self.dime['radius']
             return (4/3) * 3.14159 * radius ** 3
-        elif self.name == "cylinder":
+        if self.name == "cylinder":
             radius = self.dime['radius']
             height = self.dime['height']
             return 3.14159 * radius ** 2 * height
@@ -107,31 +107,106 @@ class Shape:
         if self.name == "circle":
             radius = self.dime['radius']
             return 2 * 3.14159 * radius
-        elif self.name == "rectangle":
+        if self.name == "rectangle":
             length = self.dime['length']
             width = self.dime['width']
             return 2 * (length + width)
-        elif self.name == "triangle":
+        if self.name == "triangle":
             side1 = self.dime['side1']
             side2 = self.dime['side2']
             side3 = self.dime['side3']
             return side1 + side2 + side3
-        elif self.name == "square":
+        if self.name == "square":
             side = self.dime['side']
             return 4 * side
-        elif self.name == "cube":
+        if self.name == "cube":
             side = self.dime['side']
             return 12 * side
-        elif self.name == "sphere":
+        if self.name == "sphere":
             return 0
-        elif self.name == "cylinder":
+        if self.name == "cylinder":
             radius = self.dime['radius']
             height = self.dime['height']
             return 2 * 3.14159 * radius + 2 * height
 def new_shape():
-    pass
+    print ("creatig new shape")
+    while True:
+        shape_type = input("please enter the form of the shape.\n available forms are circle, rectangle, triangle, square, cube, sphere, and cylinder\n").lower().strip()
+        if shape_type not in ["circle", "rectangle", "triangle", "square", "cube", "sphere", "cylinder"]:
+            print ("invalid shape form")
+        break
+    if shape_type == "circle":
+        print ("please enter the radius of your circle")
+        radius = int(input().strip())
+        print ("what would you like this circle to be called?")
+        name = input("").strip().capitalize()
+        new_circle = Shape(name, {"radius": radius}, "circle")
+        with open("individual_projects/Geometric Calculator/shapes.csv", "a") as file:
+            file.write(str(new_circle) + "\n")
+    if shape_type == "rectangle":
+        print ("please enter the length of your rectangle")
+        length = int(input().strip())
+        print ("please enter the width of your rectangle")
+        width = int(input().strip())
+        print ("what would you like this rectangle to be called?")
+        name = input("").strip().capitalize()
+        new_rectangle = Shape(name, {"length": length, "width": width} , "rectangle")
+        with open("individual_projects/Geometric Calculator/shapes.csv", "a") as file:
+            file.write(str(new_rectangle) + "\n")
+    if shape_type == "triangle":
+        print ("please enter the base of your triangle")
+        base = int(input().strip())
+        print ("please enter the height of your triangle")
+        height = int(input().strip())
+        print ("what would you like this triangle to be called?")
+        name = input("").strip().capitalize()
+        new_triangle = Shape(name, {"base": base, "height": height} , "triangle")
+        with open("individual_projects/Geometric Calculator/shapes.csv", "a") as file:
+            file.write(str(new_triangle) + "\n")
+    if shape_type == "square":
+        print ("please enter the side length of your square")
+        side = int(input().strip())
+        print ("what would you like this square to be called?")
+        name = input("").strip().capitalize()
+        new_square = Shape(name, {"side": side} , "square")
+        with open("individual_projects/Geometric Calculator/shapes.csv", "a") as file:
+            file.write(str(new_square) + "\n")
+    if shape_type == "cube":
+        print ("please enter the side length of your cube")
+        side = int(input().strip())
+        print ("what would you like this cube to be called?")
+        name = input("").strip().capitalize()
+        new_cube = Shape(name, {"side": side} , "cube")
+        with open("individual_projects/Geometric Calculator/shapes.csv", "a") as file:
+            file.write(str(new_cube) + "\n")
+    if shape_type == "sphere":
+        print ("please enter the radius of your sphere")
+        radius = int(input().strip())
+        print ("what would you like this sphere to be called?")
+        name = input("").strip().capitalize()
+        new_sphere = Shape(name, {"radius": radius} , "sphere")
+        with open("individual_projects/Geometric Calculator/shapes.csv", "a") as file:
+            file.write(str(new_sphere) + "\n")
+    if shape_type == "cylinder":
+        print ("please enter the radius of your cylinder")
+        radius = int(input().strip())
+        print ("please enter the height of your cylinder")
+        height = int(input().strip())
+        print ("what would you like this cylinder to be called?")
+        name = input("").strip().capitalize()
+        new_cylinder = Shape(name, {"radius": radius, "height": height} , "cylinder")
+        with open("individual_projects/Geometric Calculator/shapes.csv", "a") as file:
+            file.write(str(new_cylinder) + "\n")
 def view_shapes():
-    pass
+    with open("individual_projects/Geometric Calculator/shapes.csv", "r") as file:
+        shapes = file.readlines()
+        if not shapes:
+            print ("no shapes in library")
+        else:
+            for shape in shapes:
+                #FIIIIIXXXX THIS!!!!!
+                pass
+
 def compare_shapes():
     pass
 def select_shape():
