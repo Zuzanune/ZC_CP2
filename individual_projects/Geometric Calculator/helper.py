@@ -210,7 +210,6 @@ def view_shapes():
                             if symbol == "\"" or symbol == "\'" or symbol == "{" or symbol == "}":
                                 index_to_remove = x.index(symbol)
                                 x = x[:index_to_remove] + x[index_to_remove+1:]
-                        parts = x.split(":")
                         print(x)
                     else:                        
                         print (x.strip())
