@@ -75,7 +75,7 @@ class Shape:
         self.area = self.calculate_area()
         self.perimeter = self.calculate_perimeter()
     def __str__(self):
-        return f"{self.name.capitalize()} with dimensions {self.dime}, Area: {self.area}, Perimeter: {self.perimeter}"
+        return f"{self.name.capitalize()} with dimensions, {self.dime}, Area: {self.area}, Perimeter: {self.perimeter}"
 
     def calculate_area(self):
         if self.name == "circle":
@@ -204,14 +204,68 @@ def view_shapes():
             print ("no shapes in library")
         else:
             for shape in shapes:
-                #FIIIIIXXXX THIS!!!!!
-                pass
-
+                for sect in shape.split(","):
+                    #check if sect is a dictionary, if it is, print it in a user friendly way
+                    if isinstance(sect, dict):
+                        print ("Dimensions:")
+                        for key, value in eval(sect).items():
+                            print (f"  {key}: {value}")
+                    else:
+                        print (sect.strip())
 def compare_shapes():
     pass
 def select_shape():
-    pass
+    shapes_dict = {}
+    with open("individual_projects/Geometric Calculator/shapes.csv", "r") as file:
+        shapes = file.readlines()
+        for shape in shapes:
+            name = shape.split(",")[0].strip()
+            shapes_dict[name] = shape
+    shape_name = input("Please enter the name of the shape you want to select: ").strip().capitalize()
+    if shape_name in shapes_dict:
+        shape = shapes_dict[shape_name]
+        print ("would you like to edit this shape? (y/n)")
+        choice = input().strip().lower()
+
+        if choice == "y":
+            #remove shape from file so it can be remade
+            with open("individual_projects/Geometric Calculator/shapes.csv", "r") as file:
+                lines = file.readlines()
+            with open("individual_projects/Geometric Calculator/shapes.csv", "w") as file:
+                for line in lines:                    
+                    if line.strip() != shape.strip():
+                        file.write(line)
+            new_shape()
+        else:
+            for sect in shape.split(","):
+                if isinstance(sect, dict):
+                    print ("Dimensions:")
+                    for key, value in eval(sect).items():
+                        print (f"  {key}: {value}")
+                else:
+                    print (sect.strip())
 def sort_shapes():
-    pass
+    sort_choice = input("would you like to sort the shapes by area or perimeter? ").strip().lower()
+    with open("individual_projects/Geometric Calculator/shapes.csv", "r") as file:
+        shapes = file.readlines()
+        shapes_list = []
+        for shape in shapes:
+            name = shape.split(",")[0].strip() if not isinstance(shape.split(",")[0].strip(), dict) else None
+            dimensions = eval(shape.split(",")[1].strip())
+            area = float(shape.split(",")[2].split(":")[1].strip())
+            perimeter = float(shape.split(",")[3].split(":")[1].strip())
+            shapes_list.append({"name": name, "dimensions": dimensions, "area": area, "perimeter": perimeter})
+        if sort_choice == "area":
+            sorted_shapes = sorted(shapes_list, key=lambda x: x['area'])
+        elif sort_choice == "perimeter":
+            sorted_shapes = sorted(shapes_list, key=lambda x: x['perimeter'])
+        else:
+            print ("invalid sort choice")
+            return
+        for shape in sorted_shapes:
+            print (f"{shape['name']} - Area: {shape['area']}, Perimeter: {shape['perimeter']}")
 def helps():
-    pass
+    print ("Welcome to the Geometric Calculator! this tool allows you to create and modify varios shapes,\n view their dimensions, area, and perimeter, and compare and sort them based on these attributes.")
+    print ("To create a new shape, select New Shape from the menu and follow the prompts to enter the shape type and its dimensions. \nYou can create circles, rectangles, triangles, squares, cubes, spheres, and cylinders.")
+    print ("To view all the shapes in your library, select View Shapes from the menu. \nThis will display the name, dimensions, area, and perimeter of each shape you have created.")
+    print ("To compare two shapes, select 'Compare' from the menu.")

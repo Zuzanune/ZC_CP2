@@ -25,6 +25,7 @@ define menu function
     if choice is 7
         exit program"""
 from helper import *
+import time
 def main():
     print("Welcome to the Geometric Calculator!")
     while True:
@@ -49,6 +50,7 @@ def main():
             sort_shapes()
         elif choice == '6':
             helps()
+            time.sleep(6)
         elif choice == '7':
             print("Goodbye!")
             break
