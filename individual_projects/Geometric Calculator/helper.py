@@ -75,7 +75,7 @@ class Shape:
         self.area = self.calculate_area()
         self.perimeter = self.calculate_perimeter()
     def __str__(self):
-        return f"{self.name.capitalize()} with dimensions, {self.dime}, Area: {self.area}, Perimeter: {self.perimeter}"
+        return f"{self.name.capitalize()} with dimensions;{self.dime};Area: {self.area};Perimeter:{self.perimeter}"
 
     def calculate_area(self):
         if self.name == "circle":
@@ -204,14 +204,16 @@ def view_shapes():
             print ("no shapes in library")
         else:
             for shape in shapes:
-                for sect in shape.split(","):
-                    #check if sect is a dictionary, if it is, print it in a user friendly way
-                    if isinstance(sect, dict):
-                        print ("Dimensions:")
-                        for key, value in eval(sect).items():
-                            print (f"  {key}: {value}")
-                    else:
-                        print (sect.strip())
+                for x in shape.split(";"):
+                    if "{" in x:
+                        for symbol in x:
+                            if symbol == "\"" or symbol == "\'" or symbol == "{" or symbol == "}":
+                                index_to_remove = x.index(symbol)
+                                x = x[:index_to_remove] + x[index_to_remove+1:]
+                        parts = x.split(":")
+                        print(x)
+                    else:                        
+                        print (x.strip())
 def compare_shapes():
     pass
 def select_shape():
@@ -250,10 +252,10 @@ def sort_shapes():
         shapes = file.readlines()
         shapes_list = []
         for shape in shapes:
-            name = shape.split(",")[0].strip() if not isinstance(shape.split(",")[0].strip(), dict) else None
-            dimensions = eval(shape.split(",")[1].strip())
-            area = float(shape.split(",")[2].split(":")[1].strip())
-            perimeter = float(shape.split(",")[3].split(":")[1].strip())
+            name = shape.split(",")[0].strip()
+            dimensions = eval(shape.split(";")[1].strip())
+            area = float(shape.split(";")[2].split(":")[1].strip())
+            perimeter = float(shape.split(";")[3].split(":")[1].strip())
             shapes_list.append({"name": name, "dimensions": dimensions, "area": area, "perimeter": perimeter})
         if sort_choice == "area":
             sorted_shapes = sorted(shapes_list, key=lambda x: x['area'])
