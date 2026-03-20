@@ -114,9 +114,9 @@ class Shape:
             width = self.dime['width']
             return 2 * (length + width)
         if self.name == "triangle":
-            side1 = self.dime['side1']
-            side2 = self.dime['side2']
-            side3 = self.dime['side3']
+            side1 = math.sqrt((self.dime['base'] / 2) ** 2 + self.dime['height'] ** 2)
+            side2 = side1
+            side3 = self.dime['base']
             return side1 + side2 + side3
         if self.name == "square":
             side = self.dime['side']
@@ -167,8 +167,6 @@ def new_shape():
         print ("what would you like this triangle to be called?")
         name = input("").strip().capitalize()
         new_triangle = Shape(name, {"base": base, "height": height} , "triangle")
-        side1 = base
-        side2 = math.sqrt((1/2 * base)^2 + (height)^2)
         with open("individual_projects/Geometric Calculator/shapes.csv", "a") as file:
             file.write(str(new_triangle) + "\n")
     if shape_type == "square":
@@ -222,6 +220,11 @@ def view_shapes():
                     else:                        
                         print (x.strip())
 def compare_shapes():
+    #print all shape names
+    with open("individual_projects/Geometric Calculator/shapes.csv", "r") as file:
+        shapes = file.readlines()
+        for shape in shapes:
+            print(shape.split(",")[0].strip())
     shape1_name = input("Please enter the name of the first shape: ").strip().capitalize()
     shape2_name = input("Please enter the name of the second shape: ").strip().capitalize()
     with open("individual_projects/Geometric Calculator/shapes.csv", "r") as file:
