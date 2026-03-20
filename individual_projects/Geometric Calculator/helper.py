@@ -68,14 +68,16 @@ define help function
     explain how to create new shapes, view shapes, compare shapes, select shapes, and sort shapes
     provide examples of shape dimensions and calculations
     """
+import math
 class Shape:
     def __init__(self, name, dime, type):
         self.name = type
+        self.call = name
         self.dime = dime
         self.area = self.calculate_area()
         self.perimeter = self.calculate_perimeter()
     def __str__(self):
-        return f"{self.name.capitalize()} with dimensions;{self.dime};Area: {self.area};Perimeter:{self.perimeter}"
+        return f"{self.call} is a {self.name.capitalize()} with dimensions;{self.dime};Area: {self.area};Perimeter:{self.perimeter}"
 
     def calculate_area(self):
         if self.name == "circle":
@@ -128,6 +130,10 @@ class Shape:
             radius = self.dime['radius']
             height = self.dime['height']
             return 2 * 3.14159 * radius + 2 * height
+    def has_greater_area(self, other):
+        return self.area > other.area
+    def has_greater_perimeter(self, other):
+        return self.perimeter > other.perimeter
 def new_shape():
     print ("creatig new shape")
     while True:
@@ -161,6 +167,8 @@ def new_shape():
         print ("what would you like this triangle to be called?")
         name = input("").strip().capitalize()
         new_triangle = Shape(name, {"base": base, "height": height} , "triangle")
+        side1 = base
+        side2 = math.sqrt((1/2 * base)^2 + (height)^2)
         with open("individual_projects/Geometric Calculator/shapes.csv", "a") as file:
             file.write(str(new_triangle) + "\n")
     if shape_type == "square":
@@ -214,7 +222,35 @@ def view_shapes():
                     else:                        
                         print (x.strip())
 def compare_shapes():
-    pass
+    shape1_name = input("Please enter the name of the first shape: ").strip().capitalize()
+    shape2_name = input("Please enter the name of the second shape: ").strip().capitalize()
+    with open("individual_projects/Geometric Calculator/shapes.csv", "r") as file:
+        shapes = file.readlines()
+        for shape in shapes:
+            if shape1_name in shape:
+                shape1 = shape
+            if shape2_name in shape:
+                shape2 = shape
+    if shape1 and shape2:
+        print(f"Comparing {shape1_name} and {shape2_name}:")
+        shape1_area = float(shape1.split(";")[2].split(":")[1].strip())
+        shape1_perimeter = float(shape1.split(";")[3].split(":")[1].strip())
+        shape2_area = float(shape2.split(";")[2].split(":")[1].strip())
+        shape2_perimeter = float(shape2.split(";")[3].split(":")[1].strip())
+        if shape1_area > shape2_area:
+            print(f"{shape1_name} has a greater area than {shape2_name}.")
+        elif shape1_area < shape2_area:
+            print(f"{shape2_name} has a greater area than {shape1_name}.")
+        else:
+            print ("the shapes have the same perimeter")
+        if shape1_perimeter > shape2_perimeter:
+            print (f"{shape1_name} has a larger perimeter than {shape2_name}")
+        elif shape2_perimeter > shape1_perimeter:
+            print(f"{shape2_name} has a larger perimeter than {shape1_name}")
+        else:
+            print ("the two shapes have th same name")
+    else:
+        print("shapes not found.")
 def select_shape():
     shapes_dict = {}
     with open("individual_projects/Geometric Calculator/shapes.csv", "r") as file:
@@ -227,9 +263,7 @@ def select_shape():
         shape = shapes_dict[shape_name]
         print ("would you like to edit this shape? (y/n)")
         choice = input().strip().lower()
-
         if choice == "y":
-            #remove shape from file so it can be remade
             with open("individual_projects/Geometric Calculator/shapes.csv", "r") as file:
                 lines = file.readlines()
             with open("individual_projects/Geometric Calculator/shapes.csv", "w") as file:

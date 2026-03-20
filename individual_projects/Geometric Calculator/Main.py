@@ -26,6 +26,7 @@ define menu function
         exit program"""
 from helper import *
 import time
+import math
 def main():
     print("Welcome to the Geometric Calculator!")
     while True:
