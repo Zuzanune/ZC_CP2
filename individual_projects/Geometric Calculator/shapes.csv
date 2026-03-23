@@ -1,2 +1,2 @@
-Circ1 is a Circle with dimensions;{'radius': 30};Area: 2827.431;Perimeter:188.4954
-Tr is a Triangle with dimensions;{'base': 40, 'height': 32};Area: 640.0;Perimeter:115.47184905645283
+Cylinder; {'radius': 40, 'height': 30, 'name': Syl}; area: 17592.904; perimeter: 311.3272
+Circle; {'radius': 40, 'name': Circ}; area: 5026.544; perimeter: 251.3272
