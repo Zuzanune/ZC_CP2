@@ -12,7 +12,6 @@ fake = Faker()
 
 def save_character(character, file_path=None):
     file_path = file_path or CHAR_FILE
-    # Accept either object with attributes or raw dictionary
     if isinstance(character, dict):
         name = character.get("name")
         race = character.get("race")
@@ -36,7 +35,7 @@ def save_character(character, file_path=None):
         wisdom = getattr(character, "wisdom", None)
         charisma = getattr(character, "charisma", None)
 
-    with open("characters.json", "r") as f:
+    with open("P:\Carter, Zane\ZC_CP2\individual_projects\RPG-character-manager(remade)\characters.json", "r") as f:
         characters = json.load(f)
 
     if not isinstance(characters, list):
@@ -80,70 +79,70 @@ def create_character(name=None, race=None, level=None, character_class=None, str
         name = name.strip() if isinstance(name, str) and name.strip() else fake.name()
         race = race.strip() if isinstance(race, str) and race.strip() else random.choice(["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Orc", "Tiefling", "Dragonborn"])
         level = int(level) if validate_input(level, "int") else random.randint(1, 20)
-        character_class = character_class.strip() if isinstance(character_class, str) and character_class.strip() else random.choice(["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian"])
+        character_class = character_class.strip() if isinstance(character_class, str)  and character_class.strip() else random.choice(["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian", "Artificer"])
 
-        def stat_or_random(value):
+        def statrandom(value):
             return int(value) if validate_input(value, "int") else random.randint(7, 18)
 
-        strength = stat_or_random(strength)
-        dexterity = stat_or_random(dexterity)
-        intelligence = stat_or_random(intelligence)
-        constitution = stat_or_random(constitution)
-        wisdom = stat_or_random(wisdom)
-        charisma = stat_or_random(charisma)
+        strength = statrandom(strength)
+        dexterity = statrandom(dexterity)
+        intelligence = statrandom(intelligence)
+        constitution = statrandom(constitution)
+        wisdom = statrandom(wisdom)
+        charisma = statrandom(charisma)
 
         return character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
 
     print("welcome to the character creator!")
     print("would you like to manualy enter your charactrer's details or have them randomly generated?")
-    choice = input("Enter 'manual' or 'random': ")
+    while True:
+        choice = input("Enter 'manual' or 'random': ")
 
-    if choice.lower() == 'manual':
-        name = input("Enter your character's name: ") or name or fake.name()
-        race = input("Enter your character's race: ") or race or "Human"
-        level = input("Enter your character's level: ")
-        level = int(level) if validate_input(level, 'int') else 1
-        available_classes = ["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian"]
-        character_class = input("Enter your character's class: ")
-        while character_class not in available_classes:
-            print("Invalid class. Please choose from the following:")
-            for cls in available_classes:
-                print(f"- {cls}")
+        if choice.lower() == 'manual':
+            name = input("Enter your character's name: ") or name or fake.name()
+            race = input("Enter your character's race: ") or race or "Human"
+            level = input("Enter your character's level: ")
+            level = int(level) if validate_input(level, 'int') else 1
+            available_classes = ["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian"]
+            character_class = input("Enter your character's class: ").lower()
+            while character_class not in available_classes:
+                print("Invalid class. Please choose from the following:")
+                for cls in available_classes:
+                    print(f"- {cls}")
+                character_class = input("Enter your character's class: ")
+            strength = int(input("Enter your character's strength: "))
+            dexterity = int(input("Enter your character's dexterity: "))
+            intelligence = int(input("Enter your character's intelligence: "))
+            constitution = int(input("Enter your character's constitution: "))
+            wisdom = int(input("Enter your character's wisdom: "))
+            charisma = int(input("Enter your character's charisma: "))
+
+            return character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
+
+        if choice.lower() == 'random':
+            print("enter any stat you would like to set for your character, or leave it blank to have it randomly generated")
+            name = input("Enter your character's name: ")
+            race = input("Enter your character's race: ")
+            level = input("Enter your character's level: ")
             character_class = input("Enter your character's class: ")
-        strength = int(input("Enter your character's strength: "))
-        dexterity = int(input("Enter your character's dexterity: "))
-        intelligence = int(input("Enter your character's intelligence: "))
-        constitution = int(input("Enter your character's constitution: "))
-        wisdom = int(input("Enter your character's wisdom: "))
-        charisma = int(input("Enter your character's charisma: "))
+            while character_class not in ["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian", ""]:
+                character_class = input("Invalid class. Enter your character's class: ")
+            strength = input("Enter your character's strength: ")
+            dexterity = input("Enter your character's dexterity: ")
+            intelligence = input("Enter your character's intelligence: ")
+            constitution = input("Enter your character's constitution: ")
+            wisdom = input("Enter your character's wisdom: ")
+            charisma = input("Enter your character's charisma: ")
 
-        return character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
-
-    if choice.lower() == 'random':
-        print("enter any stat you would like to set for your character, or leave it blank to have it randomly generated")
-        name = input("Enter your character's name: ")
-        race = input("Enter your character's race: ")
-        level = input("Enter your character's level: ")
-        character_class = input("Enter your character's class: ")
-        while character_class not in ["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian"]:
-            character_class = input("Invalid class. Enter your character's class: ")
-        strength = input("Enter your character's strength: ")
-        dexterity = input("Enter your character's dexterity: ")
-        intelligence = input("Enter your character's intelligence: ")
-        constitution = input("Enter your character's constitution: ")
-        wisdom = input("Enter your character's wisdom: ")
-        charisma = input("Enter your character's charisma: ")
-
-        return create_random_character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
-
-    # fallback for invalid choice
-    return character(name or fake.name(), race or "Human", level or 1, character_class or "fighter", strength, dexterity, intelligence, constitution, wisdom, charisma)
-
+            return create_random_character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
+        else:
+            print ("invalid choice. please enter manual or random")
+    
 def load_characters(file_path=None):
     file_path = file_path or CHAR_FILE
     try:
-        with open(file_path, "r") as f:
-            raw = json.load(f)
+        with open(file_path, "r") as file:
+            raw = json.load(file)
     except FileNotFoundError:
         return {}
     except json.JSONDecodeError:
@@ -153,9 +152,8 @@ def load_characters(file_path=None):
         raw = list(raw.values())
     if not isinstance(raw, list):
         return {}
-
     return {c["name"]: normalize_char(c) for c in raw if "name" in c}
-def save_character(character, file_path="characters.json"):
+def save_character(character, file_path="P:\Carter, Zane\ZC_CP2\individual_projects\RPG-character-manager(remade)\characters.json"):
     try:
         with open(file_path, "r") as f:
             characters = json.load(f)
@@ -164,7 +162,6 @@ def save_character(character, file_path="characters.json"):
     except (FileNotFoundError, json.JSONDecodeError):
         characters = []
 
-    # Support both object-like and dict-like character representations
     if isinstance(character, dict):
         if "raw" in character and isinstance(character["raw"], dict):
             char_data = character["raw"]
@@ -181,10 +178,7 @@ def save_character(character, file_path="characters.json"):
             "intelligence": getattr(character, "intelligence", None),
             "constitution": getattr(character, "constitution", None),
             "wisdom": getattr(character, "wisdom", None),
-            "charisma": getattr(character, "charisma", None),
-        }
-
-    # protect against missing name
+            "charisma": getattr(character, "charisma", None),}
     if char_data.get("name") is None:
         return
 
@@ -199,8 +193,7 @@ def save_character(character, file_path="characters.json"):
         "intelligence": char_data.get("intelligence"),
         "constitution": char_data.get("constitution"),
         "wisdom": char_data.get("wisdom"),
-        "charisma": char_data.get("charisma"),
-    })
+        "charisma": char_data.get("charisma"),})
     with open(file_path, "w") as f:
         json.dump(characters, f, indent=2)
 def normalize_char(raw):
@@ -214,8 +207,7 @@ def normalize_char(raw):
         "intelligence": int(raw.get("intelligence", 10)) if validate_input(raw.get("intelligence", 10), "int") else 10,
         "constitution": int(raw.get("constitution", 10)) if validate_input(raw.get("constitution", 10), "int") else 10,
         "wisdom": int(raw.get("wisdom", 10)) if validate_input(raw.get("wisdom", 10), "int") else 10,
-        "charisma": int(raw.get("charisma", 10)) if validate_input(raw.get("charisma", 10), "int") else 10,
-    }
+        "charisma": int(raw.get("charisma", 10)) if validate_input(raw.get("charisma", 10), "int") else 10,}
     return {
         "name": base["name"],
         "race": base["race"],
@@ -298,6 +290,7 @@ def EditSkills(database, character_name):
         skilldesc = input("Enter a description for the skill: ").strip()
         database[character_name]["skills"].add((skillname, skilldesc))
         print(f"Skill '{skillname}' has been added.")
+        save_character(database[character_name])
     elif action == "remove":
         print("\nSkills:")
         for i in database[character_name]["skills"]:
@@ -307,6 +300,7 @@ def EditSkills(database, character_name):
         if skill_to_remove:
             database[character_name]["skills"].remove(skill_to_remove)
             print(f"\nSkill '{skillToRemove}' has been removed.")
+            save_character(database[character_name])
         else:
             print(f"\nSkill '{skillToRemove}' not found in your skills.")
 
@@ -393,6 +387,7 @@ def inventory_management(database, character_name, player_class):
                         val = 0
             elif players_selected_action == "3":
                 asking = False
+                save_character(database[character_name])
             else:
                 print("Invalid option.")
 
@@ -424,11 +419,11 @@ def editing(database, character_name):
                 "strength": "strength", "str": "strength", "1": "strength",
                 "dexterity": "dexterity", "dex": "dexterity", "2": "dexterity",
                 "intelligence": "intelligence", "int": "intelligence", "3": "intelligence",
-                "wisdom": "wisdom", "wis": "wisdom", "4": "wisdom",
-                "constitution": "constitution", "con": "constitution", "5": "constitution",
-                "charisma": "charisma", "cha": "charisma", "8": "charisma",
-                "health": "health", "hel": "health", "6": "health",
-                "armor class": "armor class", "ac": "armor class", "7": "armor class",
+                "wisdom": "wisdom", "wis": "wisdom", "5": "wisdom",
+                "constitution": "constitution", "con": "constitution", "4": "constitution",
+                "charisma": "charisma", "cha": "charisma", "6": "charisma",
+                "health": "health", "hel": "health", "7": "health",
+                "armor class": "armor class", "ac": "armor class", "8": "armor class",
             }
             actual_stat_name = stat_name_map.get(statToEdit, statToEdit)
             while True:
@@ -466,6 +461,8 @@ def editing(database, character_name):
 
             continue_editing = input("\nWould you like to update another attribute: \n- Yes\n- No\n\nWhich one would you like to choose? ").lower().strip()
             if continue_editing != "yes":
+                newstatlist = database[character_name]["attributes"][1]
+                save_character(database[character_name])
                 break
         else:
             print("Invalid stat name. Please try again.")

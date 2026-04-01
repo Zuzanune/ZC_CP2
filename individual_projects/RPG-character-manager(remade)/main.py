@@ -1,14 +1,15 @@
 from RPGhelper import *
 import pandas as pd
+import time
 print ("Welcome to the RPG Character Manager! \n here you can create and manage your RPG characters! \n compatable with Dungeons and Dragons 5th edition! \n")
 
 while True:
     print("\nOptions:")
     print("1. Create Character")
     print("2. Load Characters")
-    print("3. Exit")
+    print("3. Edit Characters")
+    print("4. Exit")
     characters = load_characters()
-    # Save loaded characters back to file only if necessary (and if data is complete)
     for name, char in characters.items():
         save_character(char)
 
@@ -24,7 +25,9 @@ while True:
             name = display_char.get("name") if isinstance(display_char, dict) else None
             character_class = display_char.get("character_class") if isinstance(display_char, dict) else None
             level = display_char.get("level") if isinstance(display_char, dict) else None
-            print(f"Name: {name}, Class: {character_class}, Level: {level}")
+            character_race = display_char.get("race") if isinstance(display_char, dict) else None
+            print(f" \nName: {name} \n Class: {character_class} \n Race : {character_race} \n Level: {level}")
+            
 
             attributes = char.get("attributes") if isinstance(char, dict) else None
             if attributes and isinstance(attributes, list) and len(attributes) >= 2:
@@ -32,6 +35,8 @@ while True:
                 print(df.T.rename(columns={0: "Value"}).to_string())
 
     elif choice == "3":
+        editcharacters(load_characters())
+    elif choice == "4":
         break
     else:
         print("Invalid choice. Please try again.")
