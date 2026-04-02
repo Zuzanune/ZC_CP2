@@ -9,44 +9,27 @@ BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 CHAR_FILE = os.path.join(BASE_DIR, "characters.json")
 
 fake = Faker()
+
+class character:
+    def __init__(self, name, race, level, character_class, strength=10, dexterity=10, intelligence=10, constitution=10, wisdom=10, charisma=10, hp=10, ac=10, skills=[], inventory=[]):
+        self.name = name
+        self.race = race
+        self.level = level
+        self.character_class = character_class
+        self.strength = strength
+        self.dexterity = dexterity
+        self.intelligence = intelligence
+        self.constitution = constitution
+        self.wisdom = wisdom
+        self.charisma = charisma
+        self.skills = skills
+        self.hp = hp
+        self.ac = ac
+
+    def __str__(self):
+        return f"{self.name} - Level {self.level} {self.character_class} ({self.race})\nSTR: {self.strength} DEX: {self.dexterity} INT: {self.intelligence} CON: {self.constitution} WIS: {self.wisdom} CHA: {self.charisma}"
+
 def create_character(name=None, race=None, level=None, character_class=None, strength=10, dexterity=10, intelligence=10, constitution=10, wisdom=10, charisma=10):
-    class character:
-        def __init__(self, name, race, level, character_class, strength=10, dexterity=10, intelligence=10, constitution=10, wisdom=10, charisma=10, hp = (10 + level), ac = 10, skills = [], inventory = [], ):
-            self.name = name
-            self.race = race
-            self.level = level
-            self.character_class = character_class
-            self.strength = strength
-            self.dexterity = dexterity
-            self.intelligence = intelligence
-            self.constitution = constitution
-            self.wisdom = wisdom
-            self.charisma = charisma
-            self.skills = skills
-            self.hp = hp
-            self.ac = ac
-
-        def __str__(self):
-            return f"{self.name} - Level {self.level} {self.character_class} ({self.race})\nSTR: {self.strength} DEX: {self.dexterity} INT: {self.intelligence} CON: {self.constitution} WIS: {self.wisdom} CHA: {self.charisma}"
-
-    def create_random_character(name=None, race=None, level=None, character_class=None, strength=None, dexterity=None, intelligence=None, constitution=None, wisdom=None, charisma=None):
-        name = name.strip() if isinstance(name, str) and name.strip() else fake.name()
-        race = race.strip() if isinstance(race, str) and race.strip() else random.choice(["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Orc", "Tiefling", "Dragonborn"])
-        level = int(level) if validate_input(level, "int") else random.randint(1, 20)
-        character_class = character_class.strip() if isinstance(character_class, str)  and character_class.strip() else random.choice(["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian", "Artificer"])
-
-        def statrandom(value):
-            return int(value) if validate_input(value, "int") else random.randint(7, 18)
-
-        strength = statrandom(strength)
-        dexterity = statrandom(dexterity)
-        intelligence = statrandom(intelligence)
-        constitution = statrandom(constitution)
-        wisdom = statrandom(wisdom)
-        charisma = statrandom(charisma)
-
-        return character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
-
     print("welcome to the character creator!")
     print("would you like to manualy enter your charactrer's details or have them randomly generated?")
     available_races = ["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Orc", "Tiefling", "Dragonborn"]
@@ -56,7 +39,7 @@ def create_character(name=None, race=None, level=None, character_class=None, str
         if choice.lower() == 'manual':
             name = input("Enter your character's name: ") or name or fake.name()
             while True:
-                race = input("Enter your character's race: ") or race or "Human"
+                race = input("Enter your character's race: ").capitalize() or race or "Human"
                 if race not in available_races:
                     print("Invalid race. Please choose from the following:")
                     for r in available_races:
@@ -73,33 +56,39 @@ def create_character(name=None, race=None, level=None, character_class=None, str
                     print(f"- {cls}")
                 character_class = input("Enter your character's class: ")
             while True:
-                strength = int(input("Enter your character's strength: "))
-                if validate_input(strength, 'int'):
+                str_input = input("Enter your character's strength: ")
+                if validate_input(str_input, 'int'):
+                    strength = int(str_input)
                     break
                 print("Invalid input for strength. Please enter a number.")
             while True:
-                dexterity = int(input("Enter your character's dexterity: "))
-                if validate_input(dexterity, 'int'):
+                str_input = input("Enter your character's dexterity: ")
+                if validate_input(str_input, 'int'):
+                    dexterity = int(str_input)
                     break
                 print("Invalid input for dexterity. Please enter a number.")
             while True:
-                intelligence = int(input("Enter your character's intelligence: "))
-                if validate_input(intelligence, 'int'):
+                str_input = input("Enter your character's intelligence: ")
+                if validate_input(str_input, 'int'):
+                    intelligence = int(str_input)
                     break
                 print("Invalid input for intelligence. Please enter a number.")
             while True:
-                constitution = int(input("Enter your character's constitution: "))
-                if validate_input(constitution, 'int'):
+                str_input = input("Enter your character's constitution: ")
+                if validate_input(str_input, 'int'):
+                    constitution = int(str_input)
                     break
                 print("Invalid input for constitution. Please enter a number.")
             while True:
-                wisdom = int(input("Enter your character's wisdom: "))
-                if validate_input(wisdom, 'int'):
+                str_input = input("Enter your character's wisdom: ")
+                if validate_input(str_input, 'int'):
+                    wisdom = int(str_input)
                     break
                 print("Invalid input for wisdom. Please enter a number.")
             while True:
-                charisma = int(input("Enter your character's charisma: "))
-                if validate_input(charisma, 'int'):
+                str_input = input("Enter your character's charisma: ")
+                if validate_input(str_input, 'int'):
+                    charisma = int(str_input)
                     break
                 print("Invalid input for charisma. Please enter a number.")
 
@@ -129,11 +118,24 @@ def create_character(name=None, race=None, level=None, character_class=None, str
             wisdom = input("Enter your character's wisdom: ")
             charisma = input("Enter your character's charisma: ")
 
-            return create_random_character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
+            name = name.strip() if isinstance(name, str) and name.strip() else fake.name()
+            race = race.strip() if isinstance(race, str) and race.strip() else random.choice(["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Orc", "Tiefling", "Dragonborn"])
+            level = int(level) if validate_input(level, "int") else random.randint(1, 20)
+            character_class = character_class.strip() if isinstance(character_class, str) and character_class.strip() else random.choice(["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian", "Artificer"])
+
+            def statrandom(value):
+                return int(value) if validate_input(value, "int") else random.randint(7, 18)
+
+            strength = statrandom(strength)
+            dexterity = statrandom(dexterity)
+            intelligence = statrandom(intelligence)
+            constitution = statrandom(constitution)
+            wisdom = statrandom(wisdom)
+            charisma = statrandom(charisma)
+
+            return character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
         else:
             print ("invalid choice. please enter manual or random")
-    
-def load_characters(file_path=None):
     file_path = file_path or CHAR_FILE
     try:
         with open(file_path, "r") as file:
@@ -176,8 +178,35 @@ def save_character(character, file_path= CHAR_FILE):
 
     characters = [c for c in characters if c.get("name") != char_data.get("name")]
     characters.append(char_data)
+    def make_json_serializable(obj):
+        if isinstance(obj, dict):
+            return {k: make_json_serializable(v) for k, v in obj.items()}
+        elif isinstance(obj, (list, tuple)):
+            return [make_json_serializable(item) for item in obj]
+        elif isinstance(obj, set):
+            return list(obj)
+        else:
+            return obj
+    serializable_characters = make_json_serializable(characters)
     with open(file_path, "w") as f:
-        json.dump(characters, f, indent=2)
+        json.dump(serializable_characters, f, indent=2)
+
+def load_characters(file_path=None):
+    file_path = file_path or CHAR_FILE
+    try:
+        with open(file_path, "r") as file:
+            raw = json.load(file)
+    except FileNotFoundError:
+        return {}
+    except json.JSONDecodeError:
+        return {}
+
+    if isinstance(raw, dict):
+        raw = list(raw.values())
+    if not isinstance(raw, list):
+        return {}
+    return {c["name"]: normalize_char(c) for c in raw if "name" in c}
+
 def normalize_char(raw):
     base = {
         "name": raw.get("name", "Unknown"),
@@ -287,7 +316,7 @@ def EditSkills(database, character_name):
         if skill_to_remove:
             database[character_name]["skills"].remove(skill_to_remove)
             print(f"\nSkill '{skillToRemove}' has been removed.")
-            save_character(list(database[character_name]))
+            save_character(database[character_name])
         else:
             print(f"\nSkill '{skillToRemove}' not found in your skills.")
 
@@ -297,14 +326,11 @@ def inventory_management(database, character_name, player_class):
     print(f"\nCharacters Weapon: {Items_Dictionary['Weapon'][0]}")
     print(f"Character Wearing: {Items_Dictionary['Armor'][0]}")
     print("\nCharacter Inventory:")
-
-    val = 0
-    for x in Items_Dictionary["Inventory"]:
-        val += 1
-        if val == 1:
-            print(x)
-        if val == 3:
-            val = 0
+    for i in range(0, len(Items_Dictionary["Inventory"]), 3):
+        item_name = Items_Dictionary["Inventory"][i]
+        item_slot = Items_Dictionary["Inventory"][i+1] if i+1 < len(Items_Dictionary["Inventory"]) else "Unknown"
+        item_class = Items_Dictionary["Inventory"][i+2] if i+2 < len(Items_Dictionary["Inventory"]) else "Unknown"
+        print(f"- {item_name} ({item_slot}, {item_class})")
 
     Player_answer = input("\nWould you like to: \n1. Yes\n2. No\n\nWhich one would you like to choose (1 - 2)? ").strip().lower()
     if Player_answer in ("1", "yes"):
@@ -314,13 +340,12 @@ def inventory_management(database, character_name, player_class):
             if players_selected_action == "1":
                 answering = True
                 while answering:
-                    val = 0
-                    for x in Items_Dictionary["Inventory"]:
-                        val += 1
-                        if val == 1:
-                            print(x)
-                        if val == 3:
-                            val = 0
+                    print("Current Inventory:")
+                    for i in range(0, len(Items_Dictionary["Inventory"]), 3):
+                        item_name = Items_Dictionary["Inventory"][i]
+                        item_slot = Items_Dictionary["Inventory"][i+1] if i+1 < len(Items_Dictionary["Inventory"]) else "Unknown"
+                        item_class = Items_Dictionary["Inventory"][i+2] if i+2 < len(Items_Dictionary["Inventory"]) else "Unknown"
+                        print(f"- {item_name} ({item_slot}, {item_class})")
                     Edit_item = input("What item in your inventory do you want to edit:").capitalize().strip()
                     if Edit_item in Items_Dictionary["Inventory"]:
                         Item_index = Items_Dictionary["Inventory"].index(Edit_item)
@@ -333,16 +358,14 @@ def inventory_management(database, character_name, player_class):
                                 for x in Items_Dictionary[Item_slot]:
                                     Items_Dictionary["Inventory"].append(x)
                             Items_Dictionary[Item_slot] = [Edit_item, Item_slot, Item_class]
-                            print(f"Your characters weapon is a {Items_Dictionary['Weapon'][0]}")
-                            print(f"Your characters is wearing {Items_Dictionary['Armor'][0]}")
+                            print(f"Your character's weapon is a {Items_Dictionary['Weapon'][0]}")
+                            print(f"Your character is wearing {Items_Dictionary['Armor'][0]}")
                             print("This is your inventory:")
-                            val = 0
-                            for x in Items_Dictionary["Inventory"]:
-                                val += 1
-                                if val == 1:
-                                    print(f"- {x}")
-                                if val == 3:
-                                    val = 0
+                            for i in range(0, len(Items_Dictionary["Inventory"]), 3):
+                                item_name = Items_Dictionary["Inventory"][i]
+                                item_slot = Items_Dictionary["Inventory"][i+1] if i+1 < len(Items_Dictionary["Inventory"]) else "Unknown"
+                                item_class = Items_Dictionary["Inventory"][i+2] if i+2 < len(Items_Dictionary["Inventory"]) else "Unknown"
+                                print(f"- {item_name} ({item_slot}, {item_class})")
                             answering = False
                         else:
                             print(f"Your character class is incorrect. you need to be a {Item_class}, but you are a {player_class}")
@@ -351,27 +374,32 @@ def inventory_management(database, character_name, player_class):
             elif players_selected_action == "2":
                 player_item_name = input("What is the name of the item:").capitalize().strip()
                 Items_Dictionary["Inventory"].append(player_item_name)
-                player_item_slot = input("What is the slot of the item(1.Inventory,2.Weapon,3.Armor):").strip()
-                if player_item_slot == "1":
-                    player_item_slot = "Inventory"
-                elif player_item_slot == "2":
-                    player_item_slot = "Weapon"
-                elif player_item_slot == "3":
-                    player_item_slot = "Armor"
+                while True:
+                    player_item_slot = input("What is the slot of the item(1.Inventory,2.Weapon,3.Armor):").strip()
+                    if player_item_slot == "1":
+                        player_item_slot = "Inventory"
+                        break
+                    elif player_item_slot == "2":
+                        player_item_slot = "Weapon"
+                        break
+                    elif player_item_slot == "3":
+                        player_item_slot = "Armor"
+                        break
+                    else:
+                        print("Invalid slot. Please enter 1, 2, or 3.")
                 Items_Dictionary["Inventory"].append(player_item_slot)
-                player_item_class = input("What is the required class of the item(If no required one then type None):").capitalize().strip()
+                player_item_class = "None"
                 if player_item_class not in ["None", "Warrior", "Fighter", "Rogue", "Cleric", "Sorcerer", "Mage", "Wizard", "Paladin", "Ranger", "Druid", "Bard", "Monk", "Barbarian"]:
                     print("That is not a valid class.")
                 if player_item_class == "None":
                     player_item_class = "Any"
                 Items_Dictionary["Inventory"].append(player_item_class)
-                val = 0
-                for x in Items_Dictionary["Inventory"]:
-                    val += 1
-                    if val == 1:
-                        print(x)
-                    if val == 3:
-                        val = 0
+                print("Updated Inventory:")
+                for i in range(0, len(Items_Dictionary["Inventory"]), 3):
+                    item_name = Items_Dictionary["Inventory"][i]
+                    item_slot = Items_Dictionary["Inventory"][i+1] if i+1 < len(Items_Dictionary["Inventory"]) else "Unknown"
+                    item_class = Items_Dictionary["Inventory"][i+2] if i+2 < len(Items_Dictionary["Inventory"]) else "Unknown"
+                    print(f"- {item_name} ({item_slot}, {item_class})")
             elif players_selected_action == "3":
                 asking = False
                 save_character(database[character_name])
@@ -382,11 +410,10 @@ def inventory_management(database, character_name, player_class):
 def editing(database, character_name):
     def displaystat(num, stat_name):
         oldstat = database[character_name]["attributes"][1][num]
-        try:
-            database[character_name]["attributes"][1][num] = int(newStatValue)
-        except ValueError:
-            database[character_name]["attributes"][1][num] = newStatValue
-        print(f"\n{stat_name.capitalize()} has been updated from {oldstat} to {database[character_name]['attributes'][1][num]}")
+        new_val = int(newStatValue)
+        database[character_name]["attributes"][1][num] = new_val
+        database[character_name]["raw"][stat_name] = new_val
+        print(f"\n{stat_name.capitalize()} has been updated from {oldstat} to {new_val}")
 
     while True:
         changableStats = [stat for stat in database[character_name]["attributes"][0] if stat not in ["health", "armor class"]]
@@ -406,8 +433,8 @@ def editing(database, character_name):
                 "strength": "strength", "str": "strength", "1": "strength",
                 "dexterity": "dexterity", "dex": "dexterity", "2": "dexterity",
                 "intelligence": "intelligence", "int": "intelligence", "3": "intelligence",
-                "wisdom": "wisdom", "wis": "wisdom", "4": "wisdom",
-                "constitution": "constitution", "con": "constitution", "5": "constitution",
+                "wisdom": "wisdom", "wis": "wisdom", "5": "wisdom",
+                "constitution": "constitution", "con": "constitution", "4": "constitution",
                 "charisma": "charisma", "cha": "charisma", "6": "charisma",}
             actual_stat_name = stat_name_map.get(statToEdit, statToEdit)
             while True:
@@ -428,18 +455,19 @@ def editing(database, character_name):
                     displaystat(0, "strength")
                 case "dexterity" | "dex" | "2":
                     displaystat(1, "dexterity")
-                    # Recalculate health and AC based on new dexterity
                     dex_mod = modifier(database[character_name]["attributes"][1][1])
-                    database[character_name]["attributes"][1][6] = 10 + dex_mod  # health
                     database[character_name]["attributes"][1][7] = 10 + dex_mod  # armor class
-                    print(f"Health updated to {database[character_name]['attributes'][1][6]}")
                     print(f"Armor Class updated to {database[character_name]['attributes'][1][7]}")
                 case "intelligence" | "int" | "3":
                     displaystat(2, "intelligence")
-                case "wisdom" | "wis" | "4":
-                    displaystat(3, "wisdom")
-                case "constitution" | "con" | "5":
-                    displaystat(4, "constitution")
+                case "constitution" | "con" | "4":
+                    displaystat(3, "constitution")
+                    con_mod = modifier(database[character_name]["attributes"][1][3])
+                    level = database[character_name]["raw"]["level"]
+                    database[character_name]["attributes"][1][6] = 10 + con_mod + (level - 1) * (6 + con_mod)
+                    print(f"Health updated to {database[character_name]['attributes'][1][6]}")
+                case "wisdom" | "wis" | "5":
+                    displaystat(4, "wisdom")
                 case "charisma" | "cha" | "6":
                     displaystat(5, "charisma")
                 case _:

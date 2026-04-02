@@ -1,0 +1,66 @@
+[
+  {
+    "name": "Beiro Holiminiom",
+    "race": "Human",
+    "level": 6,
+    "character_class": "monk",
+    "strength": 14,
+    "dexterity": 21,
+    "intelligence": 13,
+    "constitution": 12,
+    "wisdom": 18,
+    "charisma": 12,
+    "simpleinfo": [
+      "Beiro Holiminiom",
+      "monk"
+    ],
+    "skills": [],
+    "Items_Dictionary": {
+      "Weapon": [
+        "None"
+      ],
+      "Armor": [
+        "None"
+      ],
+      "Inventory": [
+        "Sword of punch",
+        "Weapon",
+        "Any"
+      ]
+    },
+    "attributes": [
+      [
+        "strength",
+        "dexterity",
+        "intelligence",
+        "constitution",
+        "wisdom",
+        "charisma",
+        "health",
+        "armor class"
+      ],
+      [
+        14,
+        18,
+        13,
+        10,
+        18,
+        12,
+        40,
+        14
+      ]
+    ],
+    "raw": {
+      "name": "Beiro Holiminiom",
+      "race": "Human",
+      "level": 6,
+      "character_class": "monk",
+      "strength": 14,
+      "dexterity": 18,
+      "intelligence": 13,
+      "constitution": 10,
+      "wisdom": 18,
+      "charisma": 12
+    }
+  }
+]

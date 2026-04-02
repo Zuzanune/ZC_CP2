@@ -1,4 +1,4 @@
-from RPGhelper import *
+from RPGhelper import create_character, load_characters, editcharacters, save_character
 import pandas as pd
 print ("Welcome to the RPG Character Manager! \n here you can create and manage your RPG characters! \n compatable with Dungeons and Dragons 5th edition! \n")
 
@@ -9,8 +9,6 @@ while True:
     print("3. Edit Characters")
     print("4. Exit")
     characters = load_characters()
-    for name, char in characters.items():
-        save_character(char)
 
     choice = input("Enter your choice: ")
 
