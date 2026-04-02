@@ -1,6 +1,5 @@
 from RPGhelper import *
 import pandas as pd
-import time
 print ("Welcome to the RPG Character Manager! \n here you can create and manage your RPG characters! \n compatable with Dungeons and Dragons 5th edition! \n")
 
 while True:
