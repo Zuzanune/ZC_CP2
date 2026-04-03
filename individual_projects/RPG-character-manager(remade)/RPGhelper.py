@@ -185,7 +185,7 @@ def create_character(name=None, race=None, level=None, character_class=None, str
             wisdom = input("Enter your character's wisdom: ").strip()
             charisma = input("Enter your character's charisma: ").strip()
 
-            name = name.strip() if isinstance(name, str) and name.strip() else fake.name()
+            name = name.strip() if isinstance(name, str) and name.strip() else fake.firstName()
             race = race.strip() if isinstance(race, str) and race.strip() else random.choice(["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Orc", "Tiefling", "Dragonborn"])
             level = int(level) if validate_input(level, "int") else random.randint(1, 20)
             character_class = character_class.strip() if isinstance(character_class, str) and character_class.strip() else random.choice(["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian", "Artificer"])
