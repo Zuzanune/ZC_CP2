@@ -382,7 +382,7 @@ def EditSkills(database, character_name):
         else:
             print(f"\nSkill '{skillToRemove}' not found in your skills.")
 
-#I only made smalll changes to inventory function to make it compatable.
+#I only made smalll changes to inventory function to make it compatable. still not actualy sure how it works
 def inventory_management(database, character_name, player_class):
     Items_Dictionary = database[character_name].get("Items_Dictionary", {"Weapon": ["None"], "Armor": ["None"], "Inventory": []})
     print(f"\nCharacters Weapon: {Items_Dictionary['Weapon'][0]}")

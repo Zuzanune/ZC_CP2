@@ -32,11 +32,10 @@ pip install matplotlib
 
 ## Help
 If any errors come up, there is no way to regain any information that you entered in since the last save. characters are saved after creation and editing. 
-to avoid errors don't try and break the program. enter in correct values and avoid placing spaces everywhere.
-
+To avoid errors don't try and break the program. enter in correct values and avoid placing spaces everywhere.
+The bar graph does not appear when run on a chromebook. sorry.
 ## Authors
 
-Contributors names and contact info
 
 Zane Carter
 [@Zuzanune](https://github.com/Zuzanune)
