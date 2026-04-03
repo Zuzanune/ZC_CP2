@@ -9,7 +9,14 @@ dirs = os.path.dirname(os.path.abspath(__file__))
 CHAR_FILE = os.path.join(dirs, "characters.json")
 
 fake = Faker()
-
+#define character class and character creation function. also include a function to save the character to a json file and a function to load characters from the json file. 
+# also include a function to edit the characters and save the changes to the file. also include a function to display the characters in a table using pandas. 
+# also include a function to display the character's attributes in a bar chart using matplotlib. 
+# also include input validation for the character creation and editing functions.
+#also include a function to calculate the character's health and armor class based on their constitution and dexterity scores. 
+# also include a function to calculate the character's skill modifiers based on their attributes. 
+# also include a function to manage the character's inventory, allowing the user to add and remove items, and equip weapons and armor. 
+# also include a function to display the character's skills and inventory in a readable format.
 class character:
     def __init__(self, name, race, level, character_class, strength=10, dexterity=10, intelligence=10, constitution=10, wisdom=10, charisma=10, hp=10, ac=10, skills=[], inventory=[]):
         self.name = name
@@ -51,6 +58,7 @@ def create_character(name=None, race=None, level=None, character_class=None, str
             available_classes = ["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian", "artificer"]
             character_class = input("Enter your character's class: ").lower()
             while character_class not in available_classes:
+                #input validate EVERYTHING!
                 print("Invalid class. Please choose from the following:")
                 for cls in available_classes:
                     print(f"- {cls}")
@@ -95,6 +103,8 @@ def create_character(name=None, race=None, level=None, character_class=None, str
             return character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
 
         if choice.lower() == 'random':
+            #randomly generate character details, allowing the user to specify any details they want to set, and randomly generating the rest.
+            # also include input validation for the details the user wants to set.
             print("enter any stat you would like to set for your character, or leave it blank to have it randomly generated")
             name = input("Enter your character's name: ")
             race = input("Enter your character's race: ")
@@ -122,22 +132,19 @@ def create_character(name=None, race=None, level=None, character_class=None, str
             race = race.strip() if isinstance(race, str) and race.strip() else random.choice(["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Orc", "Tiefling", "Dragonborn"])
             level = int(level) if validate_input(level, "int") else random.randint(1, 20)
             character_class = character_class.strip() if isinstance(character_class, str) and character_class.strip() else random.choice(["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian", "Artificer"])
-
             def statrandom(value):
                 return int(value) if validate_input(value, "int") else random.randint(7, 18)
-
             strength = statrandom(strength)
             dexterity = statrandom(dexterity)
             intelligence = statrandom(intelligence)
             constitution = statrandom(constitution)
             wisdom = statrandom(wisdom)
             charisma = statrandom(charisma)
-
             return character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
         else:
             print ("invalid choice. please enter manual or random")
             continue
-
+#define a save character function that takes a character object and saves the basic info to a JSON file. more advanced info saved later
 def save_character(character, file_path= CHAR_FILE):
     try:
         with open(file_path, "r") as f:
@@ -163,7 +170,7 @@ def save_character(character, file_path= CHAR_FILE):
             "charisma": getattr(character, "charisma", None),}
     if char_data.get("name") is None:
         return
-
+    #remove any existing character with the same name before ading the new one
     characters = [c for c in characters if c.get("name") != char_data.get("name")]
     characters.append(char_data)
     def make_json_serializable(obj):
@@ -178,8 +185,9 @@ def save_character(character, file_path= CHAR_FILE):
     serializable_characters = make_json_serializable(characters)
     with open(file_path, "w") as f:
         json.dump(serializable_characters, f, indent=2)
-
-def load_characters(file_path=None):
+#define load characters function. this function takes character info and returns a dictionary of character objects.
+#  the key is the character's name and the value is the character object.
+#  also include input validation for the character info. also include a function to normalize the character data.
     file_path = file_path or CHAR_FILE
     try:
         with open(file_path, "r") as file:
@@ -194,7 +202,10 @@ def load_characters(file_path=None):
     if not isinstance(raw, list):
         return {}
     return {c["name"]: normalize_char(c) for c in raw if "name" in c}
-
+#normalize character data function. 
+# this function takes raw character data and returns a character object. 
+# also include input validation for the character data.
+#so proud of how it turned out
 def normalize_char(raw):
     base = {
         "name": raw.get("name", "Unknown"),
@@ -211,6 +222,7 @@ def normalize_char(raw):
     con_mod = modifier(base["constitution"])
     health = 10 + con_mod + (base["level"] - 1) * (6 + con_mod)
     armor_class = 10 + dex_mod
+    #this is where advanced character data gets created and stores
     return {
         "name": base["name"],
         "race": base["race"],
@@ -229,6 +241,7 @@ def normalize_char(raw):
             ["strength", "dexterity", "intelligence", "constitution", "wisdom", "charisma", "health", "armor class"],
             [base["strength"], base["dexterity"], base["intelligence"], base["constitution"], base["wisdom"], base["charisma"], health, armor_class],],
         "raw": base}
+#basic validation function of my own design.
 def validate_input(text, kind='int'):
     test_to_check = str(text).strip()
     if kind == 'int':
@@ -247,9 +260,10 @@ def validate_input(text, kind='int'):
         return test_to_check.isalpha()
     else:
         return False
-
+#gets modify for score. never gives floats, always rounds down. also works for negative scores.
 def modifier(score):
-    return (score - 10) // 2
+    return int((score - 10) // 2)
+#edit character function. mostly untouched from original iteration, but added some validation and compatability.
 def editcharacters(database):
     print("\nWhich character would you like to edit? ")
     count = 0
@@ -269,6 +283,7 @@ def editcharacters(database):
     character_name = list(database.keys())[choice - 1]
 
     while True:
+        #editing menu
         print(f"\nEditing {character_name}")
         print("1. Edit Skills")
         print("2. Edit Inventory")
@@ -286,7 +301,8 @@ def editcharacters(database):
         else:
             print("Invalid option.")
 
-
+#edit skills function. skills are weird but do work. just for anything not included in basic character that you need to add
+#such as special attacks or spells.
 def EditSkills(database, character_name):
     action = input("\nWould you like to: \n- Add\n- Remove\n\nWhich one would you like to choose? ").lower().strip()
     if action == "add":
@@ -308,7 +324,7 @@ def EditSkills(database, character_name):
         else:
             print(f"\nSkill '{skillToRemove}' not found in your skills.")
 
-
+#I only made smalll changes to inventory function to make it compatable.
 def inventory_management(database, character_name, player_class):
     Items_Dictionary = database[character_name].get("Items_Dictionary", {"Weapon": ["None"], "Armor": ["None"], "Inventory": []})
     print(f"\nCharacters Weapon: {Items_Dictionary['Weapon'][0]}")
