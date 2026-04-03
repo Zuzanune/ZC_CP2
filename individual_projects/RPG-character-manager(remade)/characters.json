@@ -62,5 +62,69 @@
       "wisdom": 18,
       "charisma": 12
     }
+  },
+  {
+    "name": "James Vang",
+    "race": "Dwarf",
+    "level": 15,
+    "character_class": "bard",
+    "strength": 15,
+    "dexterity": 18,
+    "intelligence": 11,
+    "constitution": 7,
+    "wisdom": 12,
+    "charisma": 13,
+    "simpleinfo": [
+      "James Vang",
+      "bard"
+    ],
+    "skills": [],
+    "Items_Dictionary": {
+      "Weapon": [
+        "None"
+      ],
+      "Armor": [
+        "None"
+      ],
+      "Inventory": [
+        "Aaaahh stick",
+        "Weapon",
+        "Any"
+      ]
+    },
+    "attributes": [
+      [
+        "strength",
+        "dexterity",
+        "intelligence",
+        "constitution",
+        "wisdom",
+        "charisma",
+        "health",
+        "armor class"
+      ],
+      [
+        15,
+        18,
+        11,
+        7,
+        12,
+        13,
+        64,
+        14
+      ]
+    ],
+    "raw": {
+      "name": "James Vang",
+      "race": "Dwarf",
+      "level": 15,
+      "character_class": "bard",
+      "strength": 15,
+      "dexterity": 18,
+      "intelligence": 11,
+      "constitution": 7,
+      "wisdom": 12,
+      "charisma": 13
+    }
   }
 ]

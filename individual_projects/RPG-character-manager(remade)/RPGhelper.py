@@ -5,8 +5,8 @@ from faker import Faker
 import pandas as pd
 import matplotlib.pyplot as plt
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-CHAR_FILE = os.path.join(BASE_DIR, "characters.json")
+dirs = os.path.dirname(os.path.abspath(__file__))
+CHAR_FILE = os.path.join(dirs, "characters.json")
 
 fake = Faker()
 
@@ -136,20 +136,8 @@ def create_character(name=None, race=None, level=None, character_class=None, str
             return character(name, race, level, character_class, strength, dexterity, intelligence, constitution, wisdom, charisma)
         else:
             print ("invalid choice. please enter manual or random")
-    file_path = file_path or CHAR_FILE
-    try:
-        with open(file_path, "r") as file:
-            raw = json.load(file)
-    except FileNotFoundError:
-        return {}
-    except json.JSONDecodeError:
-        return {}
+            continue
 
-    if isinstance(raw, dict):
-        raw = list(raw.values())
-    if not isinstance(raw, list):
-        return {}
-    return {c["name"]: normalize_char(c) for c in raw if "name" in c}
 def save_character(character, file_path= CHAR_FILE):
     try:
         with open(file_path, "r") as f:
@@ -332,7 +320,7 @@ def inventory_management(database, character_name, player_class):
         item_class = Items_Dictionary["Inventory"][i+2] if i+2 < len(Items_Dictionary["Inventory"]) else "Unknown"
         print(f"- {item_name} ({item_slot}, {item_class})")
 
-    Player_answer = input("\nWould you like to: \n1. Yes\n2. No\n\nWhich one would you like to choose (1 - 2)? ").strip().lower()
+    Player_answer = "1"
     if Player_answer in ("1", "yes"):
         asking = True
         while asking:
