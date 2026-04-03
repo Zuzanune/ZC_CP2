@@ -19,6 +19,7 @@ fake = Faker()
 # also include a function to display the character's skills and inventory in a readable format.
 class character:
     def __init__(self, name, race, level, character_class, strength=10, dexterity=10, intelligence=10, constitution=10, wisdom=10, charisma=10, hp=10, ac=10, skills=[], inventory=[]):
+        #initialise character class
         self.name = name
         self.race = race
         self.level = level
@@ -32,10 +33,58 @@ class character:
         self.skills = skills
         self.hp = hp
         self.ac = ac
+        self.inventory = inventory
 
     def __str__(self):
         return f"{self.name} - Level {self.level} {self.character_class} ({self.race})\nSTR: {self.strength} DEX: {self.dexterity} INT: {self.intelligence} CON: {self.constitution} WIS: {self.wisdom} CHA: {self.charisma}"
+#just used to view characters.
+def compare():
+    characters = load_characters()
+    all_stats = {}
+    attr_names = None
+    for char in characters.values():
+        #display normal stats
+        display_char = char.get("raw", char) if isinstance(char, dict) else char
+        name = display_char.get("name") if isinstance(display_char, dict) else None
+        character_class = display_char.get("character_class") if isinstance(display_char, dict) else None
+        level = display_char.get("level") if isinstance(display_char, dict) else None
+        character_race = display_char.get("race") if isinstance(display_char, dict) else None
+        print(f" \nName: {name} \n Class: {character_class} \n Race : {character_race} \n Level: {level}")
 
+        items = char.get("Items_Dictionary", {"Weapon": ["None"], "Armor": ["None"], "Inventory": []}) if isinstance(char, dict) else None
+        if items:
+            weapon = items.get("Weapon", ["None"])[0] if isinstance(items.get("Weapon", []), list) and items.get("Weapon") else "None"
+            armor = items.get("Armor", ["None"])[0] if isinstance(items.get("Armor", []), list) and items.get("Armor") else "None"
+            inventory_items = items.get("Inventory", [])
+            print(f" Weapon: {weapon} \n Armor: {armor}")
+            if inventory_items:
+                print(" Inventory:")
+                for i in range(0, len(inventory_items), 3):
+                    item_name = inventory_items[i]
+                    item_slot = inventory_items[i+1] if i+1 < len(inventory_items) else "no slot"
+                    item_class = inventory_items[i+2] if i+2 < len(inventory_items) else "no class"
+                    print(f"  - {item_name} ({item_slot}, {item_class})")
+            else:
+                print(" Inventory: None")
+        #save all atributes.
+        attributes = char.get("attributes") if isinstance(char, dict) else None
+        if attributes and isinstance(attributes, list) and len(attributes) >= 2:
+            attr_names = attributes[0]
+            all_stats[name or f"Unnamed{len(all_stats)+1}"] = attributes[1]
+            df = pd.DataFrame([attributes[1]], columns=attributes[0])
+            print(df.T.rename(columns={0: "Value"}).to_string())
+
+    if all_stats and attr_names:
+        #display all character attributes for comparason using matplotlib.
+        combined_df = pd.DataFrame(all_stats, index=attr_names)
+        combined_df.plot(kind="bar", figsize=(12, 7))
+        plt.xlabel("Attribute")
+        plt.ylabel("Value")
+        plt.title("All Characters: Attribute Comparison")
+        plt.ylim(0, combined_df.max().max() + 2)
+        plt.legend(title="Character")
+        plt.tight_layout()
+        plt.show()
 def create_character(name=None, race=None, level=None, character_class=None, strength=10, dexterity=10, intelligence=10, constitution=10, wisdom=10, charisma=10):
     print("welcome to the character creator!")
     print("would you like to manualy enter your charactrer's details or have them randomly generated?")
@@ -44,7 +93,15 @@ def create_character(name=None, race=None, level=None, character_class=None, str
         choice = input("Enter 'manual' or 'random': ")
 
         if choice.lower() == 'manual':
-            name = input("Enter your character's name: ") or name or fake.name()
+            while True:
+                name = input("Enter your character's name: ") or name or fake.name()
+                if not isinstance(name, str) or not name.strip():
+                    print("Name cannot be empty. Please enter a valid name.")
+                    continue
+                if not validate_input(name, 'alpha'):
+                    print("Name must contain only letters. Please enter a valid name.")
+                    continue
+                break
             while True:
                 race = input("Enter your character's race: ").capitalize() or race or "Human"
                 if race not in available_races:
@@ -106,8 +163,8 @@ def create_character(name=None, race=None, level=None, character_class=None, str
             #randomly generate character details, allowing the user to specify any details they want to set, and randomly generating the rest.
             # also include input validation for the details the user wants to set.
             print("enter any stat you would like to set for your character, or leave it blank to have it randomly generated")
-            name = input("Enter your character's name: ")
-            race = input("Enter your character's race: ")
+            name = input("Enter your character's name: ").strip().capitalize()
+            race = input("Enter your character's race: ").strip().capitalize()
             while True:
                 level = input("Enter your character's level: ")
                 if not validate_input(level, 'int') and level.strip() != "":
@@ -118,15 +175,15 @@ def create_character(name=None, race=None, level=None, character_class=None, str
                     print("Level cannot be greater than 20.")
                     continue
                 break
-            character_class = input("Enter your character's class: ")
+            character_class = input("Enter your character's class: ").strip().capitalize()
             while character_class not in ["fighter", "wizard", "rogue", "cleric", "ranger", "paladin", "sorcerer", "warlock", "bard", "druid", "monk", "barbarian", ""]:
                 character_class = input("Invalid class. Enter your character's class: ")
-            strength = input("Enter your character's strength: ")
-            dexterity = input("Enter your character's dexterity: ")
-            intelligence = input("Enter your character's intelligence: ")
-            constitution = input("Enter your character's constitution: ")
-            wisdom = input("Enter your character's wisdom: ")
-            charisma = input("Enter your character's charisma: ")
+            strength = input("Enter your character's strength: ").strip()
+            dexterity = input("Enter your character's dexterity: ").strip()
+            intelligence = input("Enter your character's intelligence: ").strip()
+            constitution = input("Enter your character's constitution: ").strip()
+            wisdom = input("Enter your character's wisdom: ").strip()
+            charisma = input("Enter your character's charisma: ").strip()
 
             name = name.strip() if isinstance(name, str) and name.strip() else fake.name()
             race = race.strip() if isinstance(race, str) and race.strip() else random.choice(["Human", "Elf", "Dwarf", "Halfling", "Gnome", "Half-Orc", "Tiefling", "Dragonborn"])
@@ -188,6 +245,7 @@ def save_character(character, file_path= CHAR_FILE):
 #define load characters function. this function takes character info and returns a dictionary of character objects.
 #  the key is the character's name and the value is the character object.
 #  also include input validation for the character info. also include a function to normalize the character data.
+def load_characters(file_path=CHAR_FILE):
     file_path = file_path or CHAR_FILE
     try:
         with open(file_path, "r") as file:
@@ -372,6 +430,7 @@ def inventory_management(database, character_name, player_class):
                                 print(f"- {item_name} ({item_slot}, {item_class})")
                             answering = False
                         else:
+                            #this should never happen. i removed required classes because it is not accurate for dnd 5e.
                             print(f"Your character class is incorrect. you need to be a {Item_class}, but you are a {player_class}")
                     else:
                         print("That is not an item in your inventory")
@@ -410,13 +469,14 @@ def inventory_management(database, character_name, player_class):
             else:
                 print("Invalid option.")
 
-
+#editing character stats function. quite complex, stat name map had to be edited over and over again to get it to edit the correct stats.
 def editing(database, character_name):
     def displaystat(num, stat_name):
         oldstat = database[character_name]["attributes"][1][num]
         new_val = int(newStatValue)
         database[character_name]["attributes"][1][num] = new_val
         database[character_name]["raw"][stat_name] = new_val
+        database[character_name][stat_name] = new_val
         print(f"\n{stat_name.capitalize()} has been updated from {oldstat} to {new_val}")
 
     while True:
@@ -433,6 +493,7 @@ def editing(database, character_name):
             pass
 
         if stat_is_valid:
+            #stat name map.
             stat_name_map = {
                 "strength": "strength", "str": "strength", "1": "strength",
                 "dexterity": "dexterity", "dex": "dexterity", "2": "dexterity",
@@ -447,7 +508,6 @@ def editing(database, character_name):
                     print("Please enter a numeric value.")
                     continue
                 break
-
             case_value = statToEdit
             if statToEdit.isdigit():
                 case_value = statToEdit
@@ -476,7 +536,6 @@ def editing(database, character_name):
                     displaystat(5, "charisma")
                 case _:
                     print("Could not match stat. Please try again.")
-
             continue_editing = input("\nWould you like to update another attribute: \n- Yes\n- No\n\nWhich one would you like to choose? ").lower().strip()
             if continue_editing != "yes":
                 newstatlist = database[character_name]["attributes"][1]
